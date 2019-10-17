@@ -1,7 +1,7 @@
 import React from "react";
 import PollList from "./PollList";
 import CreatePoll from "./CreatePoll";
-import { Login } from "./Login";
+import Login from "./Login";
 
 
 const Routes = {

@@ -1,0 +1,10 @@
+.poll-card {
+    margin: 20px;
+    width: 18em
+}
+
+.row {
+    margin: 0;
+    height: 100px;
+    /* justify-content: center; */
+}

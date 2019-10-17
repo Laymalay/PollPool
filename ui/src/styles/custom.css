@@ -4,8 +4,8 @@ body {
 
 .navbar-title {
     letter-spacing: 0.1cm;
-    text-decoration: overline;
-    font-style: italic;
+    /* text-decoration: overline;
+    font-style: italic; */
 }
 
 .login-link{

@@ -40,12 +40,13 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'questions.apps.QuestionsConfig',
     'users.apps.UsersConfig',
+    'corsheaders',
     'graphene_django',
 ]
 
 GRAPHENE = {
     'SCHEMA': 'polls_api.schema.schema',
-     'MIDDLEWARE': [
+    'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
 }
@@ -55,8 +56,23 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_WHITELIST = ["http://localhost:3000", ]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", ]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

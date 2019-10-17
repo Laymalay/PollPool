@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 from graphene_django.views import GraphQLView
 from polls_api.schema import schema
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('graphql', GraphQLView.as_view(graphiql=True, schema=schema)),
+    path('csrf/', views.csrf),
 ]

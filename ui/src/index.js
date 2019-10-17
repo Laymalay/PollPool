@@ -11,17 +11,46 @@ import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
 import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
+import { setContext } from 'apollo-link-context';
+import Cookies from 'js-cookie';
+import { ApolloLink, concat, from } from 'apollo-link';
 
 const httpLink = createHttpLink({
     // TODO: move to environment
-    uri: "http://localhost:8000"
+    uri: 'http://localhost:8000/graphql',
+    credentials: 'include',
 });
+
+
+let csrftoken;
+
+async function getCsrfToken() {
+    if (csrftoken) return csrftoken;
+    csrftoken = await fetch('http://localhost:8000/csrf/')
+        .then(response => response.json())
+        .then(data => data.csrfToken)
+    return await csrftoken
+}
+
+
+const authMiddleware = setContext(async (req, { headers }) => {
+    const token = await getCsrfToken();
+    Cookies.set('csrftoken', csrftoken);
+    return {
+        headers: {
+            ...headers,
+            'X-CSRFToken': csrftoken,
+        },
+    };
+});
+
 
 const client = new ApolloClient({
-    link: httpLink,
-    cache: new InMemoryCache()
+    uri: 'http://localhost:8000/graphql',
+    cache: new InMemoryCache(),
+    credentials: 'include',
+    link: from([authMiddleware, httpLink]),
 });
-
 
 ReactDOM.render(
     <BrowserRouter>

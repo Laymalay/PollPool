@@ -1,19 +1,26 @@
 import React from "react";
 import PollList from "./PollList";
-import { useRoutes } from "hookrouter";
 import Header from "./Header";
-import { Switch, Route } from "react-router-dom";
 import CreatePoll from "./CreatePoll";
 import Login from "./Login";
-import Routes from "./router";
+import {
+  BrowserRouter as Router,
+  Switch,
+  browserHistory,
+  Route
+} from "react-router";
 
 const App = () => {
-  const routeResult = useRoutes(Routes);
-
   return (
     <div>
       <Header />
-        {routeResult}
+      <Switch>
+        <Route exact path="/" component={PollList} />
+        <Route path="/polls" component={PollList} />
+        <Route path="/create" component={CreatePoll} />
+        <Route path="/login" component={Login} />
+        <Route render={() => <h2>Page not found</h2>} />
+      </Switch>
     </div>
   );
 };

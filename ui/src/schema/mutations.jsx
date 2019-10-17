@@ -18,3 +18,19 @@ export const createPollMutation = gql`
     }
   }
 `;
+
+export const  SignupMutation = gql`
+  mutation SignupMutation($email: String!, $password: String!, $name: String!) {
+    signup(email: $email, password: $password, name: $name) {
+      token
+    }
+  }
+`
+
+export const  LoginMutation = gql`
+  mutation LoginMutation($username: String!, $password: String!) {
+    tokenAuth(username: $username, password: $password) {
+      token
+    }
+  }
+`

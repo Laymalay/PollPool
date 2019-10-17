@@ -1,18 +1,22 @@
-import gql from 'graphql-tag';
-
+import gql from "graphql-tag";
 
 export const getAllPollsQuery = gql`
-  query AllPolls {
-    id
-    title
-    description
-    creator
-    questions{
+  {
+    allPolls {
+      id
+      title
+      description
+      creator {
+        id
+        username
+      }
+      questions {
         id
         title
-        choices{
-            title
+        choices {
+          title
         }
+      }
     }
   }
 `;
