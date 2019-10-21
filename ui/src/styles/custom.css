@@ -1,13 +1,5 @@
 body {
     background-color: #222;
+    color: white;
 }
 
-.navbar-title {
-    letter-spacing: 0.1cm;
-    /* text-decoration: overline;
-    font-style: italic; */
-}
-
-.login-link{
-    color: white
-}

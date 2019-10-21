@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { AUTH_TOKEN } from "../constants";
+import { AUTH_TOKEN } from "../../constants";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./Login.css";
 import { useMutation } from "react-apollo-hooks";
-import { LoginMutation } from "../schema/mutations";
+import { LoginMutation } from "../../schema/mutations";
 import { withRouter } from "react-router";
 
 const Login = props => {
@@ -14,7 +14,7 @@ const Login = props => {
   const validateForm = () => {
     return username.length > 0 && password.length > 0;
   };
-
+  
   const handleSubmit = event => {
     event.preventDefault();
     login({

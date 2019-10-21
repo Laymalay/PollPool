@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useMutation } from "react-apollo-hooks";
-import { createPollMutation } from "../schema/mutations";
-import { getAllPollsQuery } from "../schema/queries";
+import { createPollMutation } from "../../schema/mutations";
+import { getAllPollsQuery } from "../../schema/queries";
 
 export const CreatePoll = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const createPoll = useMutation(createPollMutation);
-
+  console.log("sdfsdf");
   const onSubmit = () => {
     // e.preventDefault();
     createPoll({
