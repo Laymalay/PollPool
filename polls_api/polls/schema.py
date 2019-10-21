@@ -13,12 +13,15 @@ class PollType(DjangoObjectType):
 
 
 class Query(object):
-    all_polls = graphene.List(PollType)
+    all_polls = graphene.List(PollType, creator=graphene.Int(),)
     poll = graphene.Field(PollType,
                           id=graphene.Int(),
                           title=graphene.String())
 
     def resolve_all_polls(self, info, **kwargs):
+        creator = kwargs.get('creator')
+        if creator:
+            return Poll.objects.filter(creator=creator)
         return Poll.objects.all()
 
     def resolve_poll(self, info, **kwargs):
