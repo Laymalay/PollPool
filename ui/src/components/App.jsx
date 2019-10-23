@@ -14,7 +14,7 @@ const App = () => {
         <Route exact path="/" component={AllPolls} />
         <Route path="/polls" component={AllPolls} />
         <Route path="/userpolls" component={UserPolls}/>
-        <Route path="/create" component={CreatePoll} />
+        <Route path="/createpoll" component={CreatePoll} />
         <Route path="/login" component={Login} />
         <Route render={() => <h2>Page not found</h2>} />
       </Switch>

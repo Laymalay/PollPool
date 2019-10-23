@@ -6,24 +6,27 @@ import { Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import "./UserPolls.css";
 
-const AllPolls = props => {
-  const { data, loading: loadingPolls, error: errorPolls } = useQuery(getAllPollsQuery);
-  const { data: me, loading: loadingUser, error: errorUser } = useQuery(
+const UserPolls = props => {
+  const { data: me = {}, loading: loadingUser, error: errorUser } = useQuery(
     meQuery
   );
+
+  const {
+    data: { allPolls: polls = {} } = {},
+    loading: loadingPolls,
+    error: errorPolls
+  } = useQuery(getAllPollsQuery, { variables: { creator: me.id } });
+
+  const addPoll = () => {
+    props.history.push("/createpoll");
+  };
 
   if (loadingPolls && loadingUser) return <>Loading</>;
   if (errorPolls || errorUser) return <>Error</>;
 
-  const { allPolls: polls } = data;
-
-  const addPoll = () => {
-    props.history.push("/create");
-  };
-
   return (
     <>
-      {polls && <PollList polls={polls} />}
+      {polls.length && <PollList polls={polls} />}
       <Button className="add-poll-btn" variant="info" onClick={addPoll}>
         +
       </Button>
@@ -31,4 +34,4 @@ const AllPolls = props => {
   );
 };
 
-export default withRouter(AllPolls);
+export default withRouter(UserPolls);

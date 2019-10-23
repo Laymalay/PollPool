@@ -64,19 +64,22 @@ class CreatePoll(graphene.Mutation):
     creator = graphene.Field(UserType)
     title = graphene.String(required=True)
     description = graphene.String()
+    image_path = graphene.String()
 
     class Arguments:
         title = graphene.String(required=True)
+        image_path = graphene.String()
         description = graphene.String()
 
     poll = graphene.Field(PollType)
 
-    def mutate(self, info, title, description):
+    def mutate(self, info, title, description, image_path):
         poll = Poll(title=title, creator=info.context.user,
-                    description=description)
+                    description=description, image_path=image_path)
         poll.save()
         return CreatePoll(creator=poll.creator,
                           description=poll.description,
+                          image_path=poll.image_path,
                           title=poll.title)
 
 

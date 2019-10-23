@@ -16,7 +16,7 @@ import Cookies from 'js-cookie';
 import { ApolloLink, concat, from } from 'apollo-link';
 
 const httpLink = createHttpLink({
-    // TODO: move to environment
+    // TODO: movappe to environment
     uri: 'http://localhost:8000/graphql',
     credentials: 'include',
 });

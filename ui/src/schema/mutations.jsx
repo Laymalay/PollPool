@@ -11,10 +11,11 @@ export const updatePollMutation = gql`
 
 
 export const createPollMutation = gql`
-  mutation createPoll($title: String!, $description: String!) {
-    createPoll(title: $title, description: $description) {
+  mutation createPoll($title: String!, $description: String!, $imagePath: String!) {
+    createPoll(title: $title, description: $description, imagePath: $imagePath) {
       title
       description
+      imagePath
     }
   }
 `;

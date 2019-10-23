@@ -15,7 +15,7 @@ const AllPolls = (props) => {
   const { allPolls: polls } = data;
 
   const addPoll = () => {
-    props.history.push("/create");
+    props.history.push("/createpoll");
   };
 
   return (
