@@ -4,6 +4,8 @@ import { useQuery } from "react-apollo-hooks";
 import { getAllPollsQuery, meQuery } from "../../schema/queries";
 import { Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import Loading from "../shared/loading";
+
 import "./UserPolls.css";
 
 const UserPolls = props => {
@@ -17,7 +19,7 @@ const UserPolls = props => {
     props.history.push("/createpoll");
   };
 
-  if (loadingPolls) return <>Loading</>;
+  if (loadingPolls) return <Loading />;
   if (errorPolls) return <>Error</>;
 
   return (

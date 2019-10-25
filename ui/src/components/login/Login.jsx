@@ -13,6 +13,7 @@ import { LoginMutation, SignupMutation } from "../../schema/mutations";
 import { meQuery } from "../../schema/queries";
 import { withRouter } from "react-router";
 import { useLazyQuery } from "@apollo/react-hooks";
+import Loading from "../shared/loading";
 
 const Login = props => {
   const [isLogin, setIsLogin] = useState(true);
@@ -24,7 +25,7 @@ const Login = props => {
   const [signUp] = useMutation(SignupMutation);
   const [getMe, { loadingUser, data }] = useLazyQuery(meQuery);
 
-  if (loadingUser) return <p>Loading ...</p>;
+  if (loadingUser) return <Loading />;
 
   if (data && data.me) {
     localStorage.setItem(USER_ID, data.me.id);

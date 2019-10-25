@@ -4,12 +4,13 @@ import { useQuery } from "react-apollo-hooks";
 import { getAllPollsQuery } from "../../schema/queries";
 import { Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import Loading from "../shared/loading";
 
 import "./AllPolls.css";
 
-const AllPolls = (props) => {
+const AllPolls = props => {
   const { data, loading, error } = useQuery(getAllPollsQuery);
-  if (loading) return <>Loading</>;
+  if (loading) return <Loading />;
   if (error) return <>Error</>;
 
   const { allPolls: polls } = data;
