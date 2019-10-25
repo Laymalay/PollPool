@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export const getAllPollsQuery = gql`
-  {
-    allPolls {
+  query allPolls($creator: Int) {
+    allPolls(creator: $creator) {
       id
       title
       imagePath

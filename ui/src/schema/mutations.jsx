@@ -21,9 +21,10 @@ export const createPollMutation = gql`
 `;
 
 export const  SignupMutation = gql`
-  mutation SignupMutation($email: String!, $password: String!, $name: String!) {
-    signup(email: $email, password: $password, name: $name) {
-      token
+  mutation SignupMutation($email: String!, $password: String!, $username: String!) {
+    createUser(email: $email, password: $password, username: $username) {
+      email
+      username
     }
   }
 `

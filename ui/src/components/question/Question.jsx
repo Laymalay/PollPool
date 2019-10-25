@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "react-apollo-hooks";
-import { createPollMutation } from "../../schema/mutations";
-import { getAllPollsQuery } from "../../schema/queries";
-import { Form, Button, Card, Col, Row } from "react-bootstrap";
+import { Form, Button, Col, Row } from "react-bootstrap";
 import "./Question.scss";
 
 export const Question = ({ question, updateQuestions }) => {
@@ -18,7 +15,7 @@ export const Question = ({ question, updateQuestions }) => {
 
   const enableAnswer = () => {
     return questionChoices.some(item => {
-      return item != "";
+      return item !== "";
     });
   };
 

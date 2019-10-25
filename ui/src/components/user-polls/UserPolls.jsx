@@ -7,22 +7,18 @@ import { withRouter } from "react-router-dom";
 import "./UserPolls.css";
 
 const UserPolls = props => {
-  const { data: me = {}, loading: loadingUser, error: errorUser } = useQuery(
-    meQuery
-  );
-
   const {
     data: { allPolls: polls = {} } = {},
     loading: loadingPolls,
     error: errorPolls
-  } = useQuery(getAllPollsQuery, { variables: { creator: me.id } });
+  } = useQuery(getAllPollsQuery);
 
   const addPoll = () => {
     props.history.push("/createpoll");
   };
 
-  if (loadingPolls && loadingUser) return <>Loading</>;
-  if (errorPolls || errorUser) return <>Error</>;
+  if (loadingPolls) return <>Loading</>;
+  if (errorPolls) return <>Error</>;
 
   return (
     <>

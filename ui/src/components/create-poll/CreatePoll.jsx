@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "react-apollo-hooks";
 import { createPollMutation } from "../../schema/mutations";
-import { getAllPollsQuery } from "../../schema/queries";
-import { Form, Button, Col, Image, Card } from "react-bootstrap";
+import { Form, Button, Col } from "react-bootstrap";
 import Question from "../question";
 import { withRouter } from "react-router";
 import "./CreatePoll.css";
@@ -13,9 +12,10 @@ export const CreatePoll = props => {
   const [imagePath, setImagePath] = useState(
     "https://i.pinimg.com/originals/21/61/8e/21618e399ac27c80aac237c8e2e5021d.jpg"
   );
+  
   const [questions, setQuestions] = useState([{}]);
 
-  const [createPoll, { data }] = useMutation(createPollMutation);
+  const [createPoll] = useMutation(createPollMutation);
 
   const headerStyle = {
     backgroundImage: `url(${imagePath})`,
@@ -27,17 +27,13 @@ export const CreatePoll = props => {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    margin: '10px 0'
+    margin: "10px 0"
   };
   const validateForm = () => {
     return title.length > 0 && description.length > 0;
   };
 
   const updateQuestions = question => {
-    console.log("question", question);
-    console.log([question, ...questions]);
-    console.log([...questions, question]);
-
     setQuestions([question, ...questions]);
   };
 
@@ -47,10 +43,9 @@ export const CreatePoll = props => {
       variables: {
         title,
         description,
-        imagePath
+        imagePath,
       }
     }).then(poll => {
-      console.log(poll);
       props.history.push("/polls");
     });
   };

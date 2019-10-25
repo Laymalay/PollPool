@@ -1,30 +1,28 @@
 import React from "react";
-import { Row, Card, Button, CardColumns } from "react-bootstrap";
+import { Card, Button, CardColumns } from "react-bootstrap";
 import "./PollList.scss";
 
 const PollList = props => {
-  console.log(props);
   const polls = props.polls;
   return (
     <div>
       <CardColumns className>
-      {polls.map(poll => (
-        <Card bg="dark" border="info" className="poll-card">
-          <Card.Img
-            variant="top"
-            src={poll.imagePath}
-            style={{ filter: "blur(3px) brightness(60%)" }}
-          />
-          <Card.ImgOverlay className="card-content">
-            <Card.Title>{poll.title}</Card.Title>
-            <Card.Text className="card-text">{poll.description}</Card.Text>
-            <Button className="pass-btn" variant="outline-info">Pass</Button>
-          </Card.ImgOverlay>
-          {/* <Card.Body>
-              
-              </Card.Body> */}
-        </Card>
-      ))}
+        {polls.map(poll => (
+          <Card key={poll.title} bg="dark" border="info" className="poll-card">
+            <Card.Img
+              variant="top"
+              src={poll.imagePath}
+              style={{ filter: "blur(3px) brightness(60%)" }}
+            />
+            <Card.ImgOverlay className="card-content">
+              <Card.Title>{poll.title}</Card.Title>
+              <Card.Text className="card-text">{poll.description}</Card.Text>
+              <Button className="pass-btn" variant="outline-info">
+                Pass
+              </Button>
+            </Card.ImgOverlay>
+          </Card>
+        ))}
       </CardColumns>
     </div>
   );

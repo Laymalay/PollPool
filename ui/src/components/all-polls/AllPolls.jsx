@@ -8,7 +8,7 @@ import { withRouter } from "react-router-dom";
 import "./AllPolls.css";
 
 const AllPolls = (props) => {
-  const { data, loading: loading, error: error } = useQuery(getAllPollsQuery);
+  const { data, loading, error } = useQuery(getAllPollsQuery);
   if (loading) return <>Loading</>;
   if (error) return <>Error</>;
 

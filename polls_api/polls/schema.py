@@ -20,6 +20,7 @@ class Query(object):
 
     def resolve_all_polls(self, info, **kwargs):
         creator = kwargs.get('creator')
+        print(kwargs)
         if creator:
             return Poll.objects.filter(creator=creator)
         return Poll.objects.all()

@@ -13,14 +13,14 @@ import { ApolloProvider } from "react-apollo";
 import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
 import { setContext } from 'apollo-link-context';
 import Cookies from 'js-cookie';
-import { ApolloLink, concat, from } from 'apollo-link';
+import { from } from 'apollo-link';
+import { AUTH_TOKEN } from './constants'
 
 const httpLink = createHttpLink({
     // TODO: movappe to environment
     uri: 'http://localhost:8000/graphql',
     credentials: 'include',
 });
-
 
 let csrftoken;
 
@@ -32,14 +32,16 @@ async function getCsrfToken() {
     return await csrftoken
 }
 
-
 const authMiddleware = setContext(async (req, { headers }) => {
-    const token = await getCsrfToken();
+    const token = localStorage.getItem(AUTH_TOKEN);
+    const csrftoken = await getCsrfToken();
+
     Cookies.set('csrftoken', csrftoken);
     return {
         headers: {
             ...headers,
             'X-CSRFToken': csrftoken,
+            authorization: token ? `JWT ${token}` : ''
         },
     };
 });

@@ -10,7 +10,8 @@ class UserType(DjangoObjectType):
 
 
 class CreateUser(graphene.Mutation):
-    user = graphene.Field(UserType)
+    username = graphene.String(required=True)
+    email = graphene.String(required=True)
 
     class Arguments:
         username = graphene.String(required=True)
@@ -25,11 +26,12 @@ class CreateUser(graphene.Mutation):
         user.set_password(password)
         user.save()
 
-        return CreateUser(user=user)
+        return CreateUser(username=user.username, email=user.email)
 
 
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
+
 
 class Query(graphene.AbstractType):
     me = graphene.Field(UserType)

@@ -1,14 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-import { AUTH_TOKEN } from "../../constants";
+import { AUTH_TOKEN, USER_ID } from "../../constants";
 import { navigate } from "hookrouter";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import "./Header.css";
 
-export const Header = ({currentUser}) => {
+export const Header = () => {
   const authToken = localStorage.getItem(AUTH_TOKEN);
-
+  
+  const logout =() =>{
+    localStorage.removeItem(AUTH_TOKEN);
+    localStorage.removeItem(USER_ID);
+  }
+  
   return (
     <Navbar sticky="top" bg="dark" variant="dark">
       <Navbar.Brand href="/polls" className="navbar-title">
@@ -25,12 +29,9 @@ export const Header = ({currentUser}) => {
       </Form>
       {authToken ? (
         <Nav.Link
-          href="/polls"
+          href="/login"
           className="nav-link"
-          onClick={() => {
-            localStorage.removeItem(AUTH_TOKEN);
-            navigate("/polls/");
-          }}
+          onClick={logout}
         >
           Logout
         </Nav.Link>
