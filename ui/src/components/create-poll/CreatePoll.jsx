@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useMutation } from "react-apollo-hooks";
-import { createPollMutation } from "../../schema/mutations";
+import {
+  createPollMutation,
+  createChoiceMutation,
+  createQuestionMutation
+} from "../../schema/mutations";
 import { Form, Button, Col } from "react-bootstrap";
 import Question from "../question";
 import { withRouter } from "react-router";
@@ -12,10 +16,12 @@ export const CreatePoll = props => {
   const [imagePath, setImagePath] = useState(
     "https://i.pinimg.com/originals/21/61/8e/21618e399ac27c80aac237c8e2e5021d.jpg"
   );
-  
+
   const [questions, setQuestions] = useState([{}]);
 
   const [createPoll] = useMutation(createPollMutation);
+  const [createQuestion] = useMutation(createQuestionMutation);
+  const [createChoice] = useMutation(createChoiceMutation);
 
   const headerStyle = {
     backgroundImage: `url(${imagePath})`,
@@ -29,6 +35,7 @@ export const CreatePoll = props => {
     justifyContent: "space-between",
     margin: "10px 0"
   };
+
   const validateForm = () => {
     return title.length > 0 && description.length > 0;
   };
@@ -43,11 +50,34 @@ export const CreatePoll = props => {
       variables: {
         title,
         description,
-        imagePath,
+        imagePath
       }
-    }).then(poll => {
-      props.history.push("/polls");
+    }).then(({ data: { createPoll: { id } } }) => {
+      console.log(id, questions);
+      questions
+        .filter(question => question.questionTitle)
+        .forEach(({ questionTitle, questionAnswer, questionChoices }) => {
+          createQuestion({
+            variables: {
+              answer: questionAnswer,
+              pollId: id,
+              title: questionTitle
+            }
+          }).then(({ data: { createQuestion: { id } } }) => {
+            console.log(id);
+            questionChoices.forEach(item => {
+              createChoice({
+                variables: {
+                  title: item,
+                  questionId: id
+                }
+              });
+            });
+          });
+        });
+      // props.history.push("/polls");
     });
+    // console.log(questions)
   };
 
   return (

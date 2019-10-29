@@ -16,6 +16,21 @@ export const createPollMutation = gql`
       title
       description
       imagePath
+      id
+    }
+  }
+`;
+export const createQuestionMutation = gql`
+  mutation createQuestion($title: String!, $pollId: Int!, $answer: String!) {
+    createQuestion(title: $title, pollId: $pollId, answer: $answer) {
+     id
+    }
+  }
+`;
+export const createChoiceMutation = gql`
+  mutation createChoice($title: String!, $questionId: Int!) {
+    createChoice(title: $title, questionId: $questionId) {
+      title
     }
   }
 `;

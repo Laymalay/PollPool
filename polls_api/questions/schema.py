@@ -27,21 +27,26 @@ class Query(object):
         return Choice.objects.all()
 
 
-class QuestionCreate(graphene.Mutation):
+class CreateQuestion(graphene.Mutation):
+    id = graphene.ID()
+
     class Arguments:
         title = graphene.String(required=True)
+        answer = graphene.String(required=True)
         poll_id = graphene.Int()
 
     question = graphene.Field(QuestionType)
 
-    def mutate(self, info, title, poll_id):
+    def mutate(self, info, title, poll_id, answer):
         poll = Poll.objects.get(pk=poll_id)
-        question = Question(title=title, poll=poll)
+        question = Question(title=title, poll=poll, answer=answer)
         question.save()
-        return QuestionCreate(question=question)
+        return CreateQuestion(id=question.id)
 
 
-class ChoiceCreate(graphene.Mutation):
+class CreateChoice(graphene.Mutation):
+    title = graphene.String()
+
     class Arguments:
         title = graphene.String(required=True)
         question_id = graphene.Int()
@@ -52,9 +57,9 @@ class ChoiceCreate(graphene.Mutation):
         question = Question.objects.get(pk=question_id)
         choice = Choice(title=title, question=question)
         choice.save()
-        return ChoiceCreate(choice=choice)
+        return CreateChoice(title=choice.title)
 
 
 class Mutation(graphene.ObjectType):
-    create_choice = ChoiceCreate.Field()
-    create_question = QuestionCreate.Field()
+    create_choice = CreateChoice.Field()
+    create_question = CreateQuestion.Field()

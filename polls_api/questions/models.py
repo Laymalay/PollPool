@@ -1,10 +1,12 @@
 from django.db import models
 from polls.models import Poll
 
+
 class Question(models.Model):
     title = models.TextField()
     poll = models.ForeignKey(
         Poll, related_name='questions', on_delete=models.CASCADE)
+    answer = models.CharField(max_length=30)
 
     def __str__(self):
         """A string representation of the model."""

@@ -66,6 +66,7 @@ class CreatePoll(graphene.Mutation):
     title = graphene.String(required=True)
     description = graphene.String()
     image_path = graphene.String()
+    id = graphene.ID()
 
     class Arguments:
         title = graphene.String(required=True)
@@ -79,6 +80,7 @@ class CreatePoll(graphene.Mutation):
                     description=description, image_path=image_path)
         poll.save()
         return CreatePoll(creator=poll.creator,
+                          id=poll.id,
                           description=poll.description,
                           image_path=poll.image_path,
                           title=poll.title)

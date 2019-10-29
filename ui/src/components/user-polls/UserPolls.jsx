@@ -1,17 +1,17 @@
 import React from "react";
 import PollList from "../poll-list/PollList";
-import { useQuery } from "react-apollo-hooks";
-import { getAllPollsQuery } from "../../schema/queries";
+import { useQuery, useMutation } from "react-apollo-hooks";
+import { getAllPollsQuery, meQuery } from "../../schema/queries";
 import { USER_ID } from "../../constants";
 import { Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import Loading from "../shared/loading";
+import gql from "graphql-tag";
 
 import "./UserPolls.css";
 
 const UserPolls = props => {
   const userId = localStorage.getItem(USER_ID);
-  
   const {
     data: { allPolls: polls = {} } = {},
     loading: loadingPolls,
@@ -24,6 +24,7 @@ const UserPolls = props => {
 
   if (loadingPolls) return <Loading />;
   if (errorPolls) return <>Error</>;
+ 
 
   return (
     <>
