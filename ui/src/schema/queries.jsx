@@ -11,10 +11,26 @@ export const getAllPollsQuery = gql`
         id
         username
       }
+    }
+  }
+`;
+
+export const getPollQuery = gql`
+  query poll($id: Int!) {
+    poll(id: $id) {
+      id
+      title
+      imagePath
+      description
+      creator {
+        id
+        username
+      }
       questions {
         id
         title
         choices {
+          id
           title
         }
       }

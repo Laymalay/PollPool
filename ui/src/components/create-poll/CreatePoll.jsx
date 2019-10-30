@@ -9,6 +9,7 @@ import { Form, Button, Col } from "react-bootstrap";
 import Question from "../question";
 import { withRouter } from "react-router";
 import "./CreatePoll.css";
+import { USER_NAME } from "../../constants";
 
 export const CreatePoll = props => {
   const [title, setTitle] = useState("");
@@ -33,7 +34,6 @@ export const CreatePoll = props => {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    margin: "10px 0"
   };
 
   const validateForm = () => {
@@ -75,15 +75,14 @@ export const CreatePoll = props => {
             });
           });
         });
-      // props.history.push("/polls");
+      props.history.push("/polls");
     });
-    // console.log(questions)
   };
 
   return (
     <Form className="create-form" onSubmit={handleSubmit}>
       <div style={headerStyle}>
-        <Form.Row>
+        <Form.Row className="first-line">
           <Form.Group as={Col} md="3" controlId="formTitle">
             <Form.Control
               type="text"
@@ -92,18 +91,27 @@ export const CreatePoll = props => {
             />
           </Form.Group>
 
-          <Form.Group as={Col} md="4" controlId="formImageUrl">
+          <Form.Group as={Col} md="5" controlId="formImageUrl">
             <Form.Control
               type="text"
               placeholder="Image url (optional)"
               onChange={e => setImagePath(e.target.value)}
             />
           </Form.Group>
+        
+          <Form.Label column md="1" className="creator">Creator:</Form.Label>
+          <Form.Group as={Col} md="2" controlId="formCreator">
+            <Form.Control
+              type="text"
+              disabled
+              value={localStorage.getItem(USER_NAME)}
+            />
+          </Form.Group>
         </Form.Row>
         <Form.Group controlId="formDescription">
           <Form.Control
             as="textarea"
-            size="sm"
+            size="lg"
             className="description"
             placeholder="Super challenging poll description"
             onChange={e => setDescription(e.target.value)}

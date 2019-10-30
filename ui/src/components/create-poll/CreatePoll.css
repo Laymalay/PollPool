@@ -1,7 +1,16 @@
 .create-form {
-    margin: 5px auto;
+    margin: 0 auto;
     max-width: 720px;
 }
 .description{
     max-height: 100px;
+}
+.creator{
+    line-height: 1.6em;
+    font-size: 16px;
+    color:rgba(0, 0, 0, 0.479);  
+}
+.first-line{
+    justify-content: space-between;
+    display: flex;
 }

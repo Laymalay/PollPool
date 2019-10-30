@@ -5,6 +5,7 @@ import Login from "./login";
 import { Switch, Route } from "react-router";
 import CreatePoll from "./create-poll";
 import UserPolls from "./user-polls";
+import Poll from "./poll";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={AllPolls} />
         <Route path="/polls" component={AllPolls} />
+        <Route path='/poll/:id' component={Poll} />
         <Route path="/userpolls" component={UserPolls}/>
         <Route path="/createpoll" component={CreatePoll} />
         <Route path="/login" component={Login} />

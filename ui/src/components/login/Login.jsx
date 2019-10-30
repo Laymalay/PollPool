@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AUTH_TOKEN, USER_ID } from "../../constants";
+import { AUTH_TOKEN, USER_ID, USER_NAME } from "../../constants";
 import {
   Button,
   Form,
@@ -29,6 +29,7 @@ const Login = props => {
 
   if (data && data.me) {
     localStorage.setItem(USER_ID, data.me.id);
+    localStorage.setItem(USER_NAME, data.me.username);
     props.history.push("/polls");
   }
 

@@ -1,8 +1,13 @@
 import React from "react";
 import { Card, Button, CardColumns } from "react-bootstrap";
 import "./PollList.scss";
+import { withRouter } from "react-router";
 
 const PollList = props => {
+  const openPoll = pollId => {
+    props.history.push(`poll/${pollId}`);
+  };
+
   const polls = props.polls;
   return (
     <div>
@@ -17,7 +22,11 @@ const PollList = props => {
             <Card.ImgOverlay className="card-content">
               <Card.Title>{poll.title}</Card.Title>
               <Card.Text className="card-text">{poll.description}</Card.Text>
-              <Button className="pass-btn" variant="outline-info">
+              <Button
+                onClick={() => openPoll(poll.id)}
+                className="pass-btn"
+                variant="outline-info"
+              >
                 Pass
               </Button>
             </Card.ImgOverlay>
@@ -28,4 +37,4 @@ const PollList = props => {
   );
 };
 
-export default PollList;
+export default withRouter(PollList);
