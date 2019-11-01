@@ -10,7 +10,7 @@ export const Question = ({ question, updateQuestions }) => {
   const formType = Object.keys(question).length === 0 ? "create" : "edit";
 
   const validateForm = () => {
-    return questionTitle.length > 0;
+    return questionTitle.length > 0 && enableAnswer();
   };
 
   const enableAnswer = () => {

@@ -34,7 +34,6 @@ export const createChoiceMutation = gql`
     }
   }
 `;
-
 export const  SignupMutation = gql`
   mutation SignupMutation($email: String!, $password: String!, $username: String!) {
     createUser(email: $email, password: $password, username: $username) {
@@ -49,5 +48,17 @@ export const  LoginMutation = gql`
     tokenAuth(username: $username, password: $password) {
       token
     }
+  }
+`
+
+export const CreatePassedPollMutation = gql`
+  mutation createPassedPoll($pollId:Int!, $answeredQuestions:[AnsweredQuestionInputType]){
+      createPassedPoll(pollId:$pollId,answeredQuestions: $answeredQuestions){  
+        id
+        poll{id
+        title}
+        user{username}
+        score
+      }
   }
 `

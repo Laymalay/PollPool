@@ -27,21 +27,18 @@ export const CreatePoll = props => {
   const headerStyle = {
     backgroundImage: `url(${imagePath})`,
     padding: 10,
-    borderRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
     height: 250,
     color: "black",
     filter: "grayscale(80%)",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   };
 
   const validateForm = () => {
     return title.length > 0 && description.length > 0;
-  };
-
-  const updateQuestions = question => {
-    setQuestions([question, ...questions]);
   };
 
   const handleSubmit = event => {
@@ -98,8 +95,10 @@ export const CreatePoll = props => {
               onChange={e => setImagePath(e.target.value)}
             />
           </Form.Group>
-        
-          <Form.Label column md="1" className="creator">Creator:</Form.Label>
+
+          <Form.Label column md="1" className="creator">
+            Creator:
+          </Form.Label>
           <Form.Group as={Col} md="2" controlId="formCreator">
             <Form.Control
               type="text"
@@ -111,7 +110,7 @@ export const CreatePoll = props => {
         <Form.Group controlId="formDescription">
           <Form.Control
             as="textarea"
-            size="lg"
+            size="sm"
             className="description"
             placeholder="Super challenging poll description"
             onChange={e => setDescription(e.target.value)}
@@ -119,12 +118,12 @@ export const CreatePoll = props => {
         </Form.Group>
       </div>
       <Form.Group controlId="formImageUrl">
-        <Form.Label>Questions:</Form.Label>
+        <Form.Label className="poll-questions-title">Questions:</Form.Label>
         {questions.map((question, index) => (
           <Question
             key={index}
             question={question}
-            updateQuestions={updateQuestions}
+            updateQuestions={question => setQuestions([question, ...questions])}
           />
         ))}
       </Form.Group>

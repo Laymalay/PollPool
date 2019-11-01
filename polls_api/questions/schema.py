@@ -2,7 +2,7 @@ import graphene
 
 from graphene_django.types import DjangoObjectType
 
-from questions.models import Question, Choice
+from questions.models import Question, Choice, AnsweredQuestion
 from polls.models import Poll
 
 
@@ -10,6 +10,9 @@ class QuestionType(DjangoObjectType):
     class Meta:
         model = Question
 
+class AnsweredQuestionType(DjangoObjectType):
+    class Meta:
+        model = AnsweredQuestion
 
 class ChoiceType(DjangoObjectType):
     class Meta:

@@ -1,30 +1,59 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import "./Poll.css";
 import { getPollQuery } from "../../schema/queries";
-import { useQuery } from "react-apollo";
+import { useQuery, useMutation } from "react-apollo";
 import Loading from "../shared/loading";
-import { Form, Row, Col, Button  } from "react-bootstrap";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import { CreatePassedPollMutation } from "../../schema/mutations";
 
 const Poll = props => {
-  console.log("sdf");
+  const [answers, setAnswers] = useState([]);
+  const [passPoll] = useMutation(CreatePassedPollMutation);
+
   const { data: { poll = {} } = {}, loading, error } = useQuery(getPollQuery, {
     variables: {
       id: props.match.params.id
     }
   });
 
+  useMemo(() => {
+    if (poll.questions) {
+      setAnswers(
+        poll.questions.map(question => ({
+          questionId: question.id,
+          choiceId: undefined
+        }))
+      );
+    }
+  }, [poll]);
+
   if (loading) return <Loading />;
   if (error) return <>Error</>;
 
   const { id, title, description, imagePath, questions } = poll;
 
-  const validateForm =()=>{
-    return true
-  }
-  
-  const handleSubmit = () =>{
+  const validateForm = () => {
+    return true;
+  };
 
-  }
+  const handleSubmit = () => {
+    passPoll({
+      variables: {
+        pollId: id,
+        answeredQuestions: answers
+      }
+    }).then(data => {
+      console.log(data);
+    });
+  };
+
+  const updateAnswers = (questionId, choiceId) => {
+    setAnswers(
+      answers.map(answer =>
+        answer.questionId === questionId ? { ...answer, choiceId } : answer
+      )
+    );
+  };
 
   const headerImage = {
     backgroundImage: `url(${imagePath})`,
@@ -34,9 +63,7 @@ const Poll = props => {
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center center"
   };
-  
-  console.log(questions);
-  
+
   return (
     poll && (
       <div className="main-content">
@@ -44,7 +71,7 @@ const Poll = props => {
           <div className="poll-title">{title}</div>
           <div className="poll-desc"> {description}</div>
         </div>
-        <Form onSubmit={handleSubmit} >
+        <Form onSubmit={handleSubmit}>
           {questions.map(question => (
             <Form.Group key={question.id} className="question" as={Row}>
               <Form.Label as="legend" column sm={5}>
@@ -57,6 +84,7 @@ const Poll = props => {
                     key={`${question.title}${choice.id}`}
                     name={question.title}
                     id={choice.id}
+                    onChange={_ => updateAnswers(question.id, choice.id)}
                     label={choice.title}
                   />
                 ))}
