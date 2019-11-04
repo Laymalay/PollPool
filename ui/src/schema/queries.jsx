@@ -38,11 +38,65 @@ export const getPollQuery = gql`
   }
 `;
 
+export const getPassedPollQuery = gql`
+  query passedPoll($id: Int!) {
+    passedPoll(id: $id) {
+      score
+      answers {
+        question {
+          title
+          answer
+          choices {
+            id
+            title
+          }
+        }
+        choice {
+          id
+          title
+        }
+        correct
+      }
+      poll {
+        title
+        imagePath
+        description
+        creator {
+          username
+        }
+      }
+      user {
+        username
+      }
+    }
+  }
+`;
+
 export const meQuery = gql`
   {
     me {
       id
       username
+    }
+  }
+`;
+
+export const pollPassedByUserQuery = gql`
+  query pollPassedByUser($poll: Int!) {
+    pollPassedByUser(poll: $poll) {
+      id
+      poll {
+        title
+        imagePath
+        description
+        creator {
+          id
+          username
+        }
+      }
+      user {
+        username
+      }
     }
   }
 `;

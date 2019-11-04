@@ -10,6 +10,7 @@ import Question from "../question";
 import { withRouter } from "react-router";
 import "./CreatePoll.css";
 import { USER_NAME } from "../../constants";
+import BackButton from "../shared/back-button";
 
 export const CreatePoll = props => {
   const [title, setTitle] = useState("");
@@ -78,6 +79,7 @@ export const CreatePoll = props => {
 
   return (
     <Form className="create-form" onSubmit={handleSubmit}>
+      <BackButton onClick={() => props.history.push("/polls")} />
       <div style={headerStyle}>
         <Form.Row className="first-line">
           <Form.Group as={Col} md="3" controlId="formTitle">

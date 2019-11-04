@@ -35,6 +35,15 @@ class Query(object):
 
     passed_poll = graphene.Field(PassedPollType,
                                  id=graphene.Int(),)
+    poll_passed_by_user = graphene.Field(
+        PassedPollType, poll=graphene.Int())
+
+    def resolve_poll_passed_by_user(self, info, **kwargs):
+        poll = kwargs.get("poll")
+        user = info.context.user
+        if poll:
+            return PassedPoll.objects.filter(user=user, poll=poll).last()
+        return PassedPoll.objects.none()
 
     def resolve_all_polls(self, info, **kwargs):
         creator = kwargs.get('creator')

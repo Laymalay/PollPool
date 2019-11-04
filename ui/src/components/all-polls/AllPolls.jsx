@@ -2,9 +2,9 @@ import React from "react";
 import PollList from "../poll-list/PollList";
 import { useQuery } from "react-apollo-hooks";
 import { getAllPollsQuery } from "../../schema/queries";
-import { Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import Loading from "../shared/loading";
+import AddButton from "../shared/add-button";
 
 import "./AllPolls.css";
 
@@ -22,9 +22,7 @@ const AllPolls = props => {
   return (
     <>
       {polls && <PollList polls={polls} />}
-      <Button className="add-poll-btn" variant="info" onClick={addPoll}>
-        +
-      </Button>
+      <AddButton onClick={addPoll}/>
     </>
   );
 };

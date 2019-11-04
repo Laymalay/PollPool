@@ -4,8 +4,8 @@ import "./PollList.scss";
 import { withRouter } from "react-router";
 
 const PollList = props => {
-  const openPoll = pollId => {
-    props.history.push(`poll/${pollId}`);
+  const openPollView = pollId => {
+    props.history.push(`pollView/${pollId}`);
   };
 
   const polls = props.polls;
@@ -23,7 +23,7 @@ const PollList = props => {
               <Card.Title>{poll.title}</Card.Title>
               <Card.Text className="card-text">{poll.description}</Card.Text>
               <Button
-                onClick={() => openPoll(poll.id)}
+                onClick={() => openPollView(poll.id)}
                 className="pass-btn"
                 variant="outline-info"
               >
