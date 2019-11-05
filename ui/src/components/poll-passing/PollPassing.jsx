@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { getPollQuery } from "../../schema/queries";
 import { useQuery, useMutation } from "react-apollo";
 import Loading from "../shared/loading";
+import PollHeader from "../shared/poll-header";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { CreatePassedPollMutation } from "../../schema/mutations";
 import { withRouter } from "react-router";
@@ -72,13 +73,12 @@ const PollPassing = props => {
       <>
         <BackButton onClick={() => props.history.push("/polls")} />
         <div className="main-content">
-          <div className="poll-header" style={headerImage}>
-          <div className="poll-title">
-            <div>{title}</div>
-            <div className="poll-creator">Creator: {creator.username}</div>
-            </div>
-            <div className="poll-desc"> {description}</div>
-          </div>
+          <PollHeader
+            headerImage={headerImage}
+            title={title}
+            username={creator.username}
+            description={description}
+          />
           <Form onSubmit={handleSubmit}>
             {questions.map(question => (
               <Form.Group key={question.id} className="question" as={Row}>

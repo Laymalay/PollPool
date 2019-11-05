@@ -1,0 +1,32 @@
+
+.poll-header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow: hidden;
+    
+}
+
+.shadow {
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(26, 26, 26, 0.911) 0%, rgba(36, 36, 36, 0.651) 50%, rgba(255, 255, 255, 0) 100%);
+    height: inherit;
+}
+
+.poll-title {
+    padding: 10px 0 0 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    font-size: 25px;
+    font-family: 'Staatliches', cursive;
+}
+
+.poll-desc {
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.poll-creator{
+    padding-left: 5px;
+    font-size: 20px;
+}

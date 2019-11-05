@@ -20,9 +20,9 @@ export const Header = () => {
         PollPool
       </Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link href="/polls">All Polls</Nav.Link>
-        {authToken && <Nav.Link href="/userpolls">My Polls</Nav.Link>}
-        <Nav.Link href="/test">Test</Nav.Link>
+        <Nav.Link className="nav-link" href="/polls">All Polls</Nav.Link>
+        {authToken && <Nav.Link className="nav-link" href="/userpolls">My Polls</Nav.Link>}
+        <Nav.Link className="nav-link" href="/test">Test</Nav.Link>
       </Nav>
       {/* <Form inline>
         <FormControl type="text" placeholder="Search" className="mr-sm-2" />

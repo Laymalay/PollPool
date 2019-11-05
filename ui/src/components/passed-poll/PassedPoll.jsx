@@ -2,24 +2,23 @@ import React from "react";
 import { getPassedPollQuery } from "../../schema/queries";
 import { useQuery, useMutation } from "react-apollo";
 import Loading from "../shared/loading";
+import PollHeader from "../shared/poll-header";
 import { Button, Row, Form, Col } from "react-bootstrap";
 import { withRouter } from "react-router";
 
 import "./PassedPoll.scss";
 
-const PassedPoll = props => {
-  console.log(props.pollId);
+const PassedPoll = ({ passedPollId, history, passRequest }) => {
   const { data: { passedPoll = {} } = {}, loading, error } = useQuery(
     getPassedPollQuery,
     {
       variables: {
-        id: props.passedPollId
+        id: passedPollId
       }
     }
   );
-
   const goBack = () => {
-    props.history.push("/polls");
+    history.push("/polls");
   };
 
   if (loading) return <Loading />;
@@ -44,18 +43,20 @@ const PassedPoll = props => {
           <span className="oi oi-chevron-left"></span>
         </Button>
         <div className="main-content">
-          <div className="poll-header" style={headerImage}>
-            <div className="poll-title">
-            <div>{title}</div>
-            <div className="poll-creator">Creator: {creator.username}</div>
-            </div>
-            <div className="poll-desc"> {description}</div>
-          </div>
-
+          <PollHeader
+            headerImage={headerImage}
+            title={title}
+            username={creator.username}
+            description={description}
+          />
           {answers.map(answer => {
-            const style = answer.correct ? 'correct' : 'wrong';
+            const style = answer.correct ? "correct" : "wrong";
             return (
-              <div key={answer.question.title} className={`answer ${style}`} as={Row}>
+              <div
+                key={answer.question.title}
+                className={`answer ${style}`}
+                as={Row}
+              >
                 <Form.Label as="legend" column sm={5}>
                   {answer.question.title}
                 </Form.Label>
@@ -63,6 +64,7 @@ const PassedPoll = props => {
                   {answer.question.choices.map(choice => (
                     <Form.Check
                       readOnly
+                      disabled={answer.choice.id !== choice.id}
                       type="radio"
                       key={`${answer.question.title}${choice.id}`}
                       name={answer.question.title}
@@ -75,7 +77,10 @@ const PassedPoll = props => {
               </div>
             );
           })}
-          <p>Score: {score*100}%</p>
+          <p>Score: {score * 100}%</p>
+          <Button variant="outline-info" onClick={() => passRequest(true)}>
+            Pass again
+          </Button>
         </div>
       </>
     )
