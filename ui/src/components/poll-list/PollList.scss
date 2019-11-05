@@ -10,7 +10,6 @@
 .card-content {
   padding: 10px;
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
 }
 
@@ -19,11 +18,20 @@
   align-self: center;
   color: white;
   background-color: rgba(23, 163, 184, 0.466);
+  position: absolute;
+  bottom: 10px;
 }
 
 .card-text {
   overflow: hidden;
+  margin: 5px 0 5px 0;
+  display: block;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  max-height: 50%;
+  line-height: 1.8em;
 }
+
 @media (min-width: 576px) {
   .card-columns {
     column-count: 2;
