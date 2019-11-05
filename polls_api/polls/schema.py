@@ -161,7 +161,7 @@ class CreatePassedPoll(graphene.Mutation):
         passed_poll = PassedPoll(poll=poll, user=info.context.user)
         passed_poll.save()
         score = create_answered_questions(answered_questions, passed_poll)
-        passed_poll.score = score
+        passed_poll.score = round(score, 2)
         passed_poll.save()
         return CreatePassedPoll(user=passed_poll.user,
                                 poll=passed_poll.poll,

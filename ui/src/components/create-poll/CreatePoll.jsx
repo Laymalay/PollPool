@@ -51,7 +51,6 @@ export const CreatePoll = props => {
         imagePath
       }
     }).then(({ data: { createPoll: { id } } }) => {
-      console.log(id, questions);
       questions
         .filter(question => question.questionTitle)
         .forEach(({ questionTitle, questionAnswer, questionChoices }) => {
@@ -62,7 +61,6 @@ export const CreatePoll = props => {
               title: questionTitle
             }
           }).then(({ data: { createQuestion: { id } } }) => {
-            console.log(id);
             questionChoices.forEach(item => {
               createChoice({
                 variables: {

@@ -21,7 +21,6 @@ class PassedPoll(models.Model):
         settings.AUTH_USER_MODEL, related_name='passed_polls', on_delete=models.CASCADE)
     score = models.FloatField(null=True)
     
-    
     def __str__(self):
         """A string representation of the model."""
         return f"{self.poll.title} {self.user.username} {self.score}"

@@ -14,7 +14,7 @@ export const Question = ({ question, updateQuestions }) => {
   };
 
   const enableAnswer = () => {
-    return questionChoices.some(item => {
+    return questionChoices.every(item => {
       return item !== "";
     });
   };
