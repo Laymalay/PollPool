@@ -40,7 +40,8 @@ const PollPassing = props => {
     return true;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     passPoll({
       variables: {
         pollId: id,

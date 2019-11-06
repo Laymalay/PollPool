@@ -5,6 +5,7 @@ import {
   createChoiceMutation,
   createQuestionMutation
 } from "../../schema/mutations";
+import { getAllPollsQuery } from "../../schema/queries";
 import { Form, Button, Col } from "react-bootstrap";
 import Question from "../question";
 import { withRouter } from "react-router";
@@ -21,7 +22,20 @@ export const CreatePoll = props => {
 
   const [questions, setQuestions] = useState([{}]);
 
-  const [createPoll] = useMutation(createPollMutation);
+  const [createPoll] = useMutation(createPollMutation, {
+    update(
+      cache,
+      {
+        data: { createPoll }
+      }
+    ) {
+      const { allPolls } = cache.readQuery({ query: getAllPollsQuery });
+      cache.writeQuery({
+        query: getAllPollsQuery,
+        data: { allPolls: allPolls.concat([createPoll]) }
+      });
+    }
+  });
   const [createQuestion] = useMutation(createQuestionMutation);
   const [createChoice] = useMutation(createChoiceMutation);
 

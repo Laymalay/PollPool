@@ -24,6 +24,9 @@ export const createPollMutation = gql`
       description
       imagePath
       id
+      creator{
+        username
+      }
     }
   }
 `;

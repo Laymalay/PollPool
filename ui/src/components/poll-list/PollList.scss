@@ -1,6 +1,8 @@
 .poll-card {
   margin: 20px;
   width: 18em;
+  padding: 2px;
+  min-height: 130px;
 }
 
 .row {
@@ -30,6 +32,12 @@
   word-wrap: break-word;
   max-height: 50%;
   line-height: 1.8em;
+  color:rgba(206, 206, 206, 0.877);
+}
+
+.card-title{
+  font-weight:bold;
+  letter-spacing: 2px;
 }
 
 @media (min-width: 576px) {

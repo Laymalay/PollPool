@@ -20,7 +20,7 @@ const PollList = props => {
               style={{ filter: "blur(3px) brightness(60%)" }}
             />
             <Card.ImgOverlay className="card-content">
-              <Card.Title>{poll.title}</Card.Title>
+              <Card.Title className="card-title">{poll.title}</Card.Title>
               <Card.Subtitle>By {poll.creator.username}</Card.Subtitle>
               <Card.Text className="card-text">{poll.description}</Card.Text>
               <Button
