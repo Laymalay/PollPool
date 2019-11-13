@@ -17,9 +17,6 @@ const PassedPoll = ({ passedPollId, history, passRequest }) => {
       }
     }
   );
-  const goBack = () => {
-    history.push("/polls");
-  };
 
   if (loading) return <Loading />;
   if (error) return <>Error</>;
@@ -39,9 +36,6 @@ const PassedPoll = ({ passedPollId, history, passRequest }) => {
   return (
     passedPoll && (
       <>
-        <Button className="back-btn" variant="outline-info" onClick={goBack}>
-          <span className="oi oi-chevron-left"></span>
-        </Button>
         <div className="main-content">
           <PollHeader
             headerImage={headerImage}

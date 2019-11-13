@@ -1,22 +1,35 @@
 import React, { useState, useMemo } from "react";
-import { getPollQuery } from "../../schema/queries";
+import { getPollQuery, pollPassedByUserQuery } from "../../schema/queries";
 import { useQuery, useMutation } from "react-apollo";
 import Loading from "../shared/loading";
 import PollHeader from "../shared/poll-header";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { CreatePassedPollMutation } from "../../schema/mutations";
 import { withRouter } from "react-router";
-import BackButton from "../shared/back-button";
 
 import "./PollPassing.css";
 
-const PollPassing = props => {
+const PollPassing = ({ pollId, history, passRequest }) => {
   const [answers, setAnswers] = useState([]);
-  const [passPoll] = useMutation(CreatePassedPollMutation);
+  const [passPoll] = useMutation(CreatePassedPollMutation, {
+    update(cache, { data: { createPassedPoll } }) {
+      const { pollPassedByUser } = cache.readQuery({
+        query: pollPassedByUserQuery,
+        variables: { poll: pollId }
+      });
+      cache.writeQuery({
+        query: pollPassedByUserQuery,
+        data: {
+          pollPassedByUser: { ...pollPassedByUser, id: createPassedPoll.id }
+        },
+        variables: { poll: pollId }
+      });
+    }
+  });
 
   const { data: { poll = {} } = {}, loading, error } = useQuery(getPollQuery, {
     variables: {
-      id: props.pollId
+      id: pollId
     }
   });
 
@@ -48,7 +61,7 @@ const PollPassing = props => {
         answeredQuestions: answers
       }
     }).then(data => {
-      console.log(data);
+      passRequest(false);
     });
   };
 
@@ -72,7 +85,6 @@ const PollPassing = props => {
   return (
     poll && (
       <>
-        <BackButton onClick={() => props.history.push("/polls")} />
         <div className="main-content">
           <PollHeader
             headerImage={headerImage}

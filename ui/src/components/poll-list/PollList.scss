@@ -14,8 +14,18 @@
   opacity: 1;
 }
 
+.poll-card:hover .card-text {
+  opacity: 1;
+}
+
 .row {
   margin: 0;
+}
+
+.shadow-on-card {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0.466) 10%, rgba(36, 36, 36, 0.486) 30%, rgba(255, 255, 255, 0) 70%);
+  height: inherit;
 }
 
 .card-content {
@@ -36,16 +46,21 @@
 }
 
 .card-text {
+  transition: opacity 0.5s;
   overflow: hidden;
+  opacity: 0;
   margin: 5px 0 5px 0;
   display: block;
   max-height: 70%;
-  color: rgba(206, 206, 206, 0.877);
+  color: rgb(255, 255, 255);
 }
 
 .card-title {
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 25px;
+  font-family: "Staatliches", cursive;
 }
 
 @media (min-width: 576px) {

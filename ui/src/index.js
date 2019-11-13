@@ -35,7 +35,6 @@ async function getCsrfToken() {
 const authMiddleware = setContext(async (req, { headers }) => {
     const token = localStorage.getItem(AUTH_TOKEN);
     const csrftoken = await getCsrfToken();
-    console.log('token', token);
     
     Cookies.set('csrftoken', csrftoken);
     return {

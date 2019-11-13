@@ -11,17 +11,17 @@ const PollList = props => {
   const polls = props.polls;
   return (
     <div>
-      <CardColumns className>
+      <CardColumns>
         {polls.map(poll => (
-          <Card key={poll.title} bg="dark" border="info" className="poll-card">
+          <Card key={poll.title} bg="dark" border="light" className="poll-card">
             <Card.Img
               variant="top"
               src={poll.imagePath}
-              style={{ filter: "blur(3px) brightness(60%)" }}
+              style={{ filter: "blur(3px)" }}
             />
-            <Card.ImgOverlay className="card-content">
-              <Card.Title className="card-title">{poll.title}</Card.Title>
-              <Card.Subtitle>By {poll.creator.username}</Card.Subtitle>
+            <Card.ImgOverlay className="card-content shadow-on-card">
+                <Card.Title className="card-title">{poll.title}</Card.Title>
+                <Card.Subtitle>By {poll.creator.username}</Card.Subtitle>
               <Card.Text className="card-text">{poll.description}</Card.Text>
               <Button
                 onClick={() => openPollView(poll.id)}
