@@ -4,7 +4,7 @@
   min-height: 130px;
   opacity: 0.8;
   border-radius: 10px;
-  transition: all 0.5s ease-in;  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
+  transition: all 0.5s ease-in; /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
 }
 
 .card-img {
@@ -40,7 +40,8 @@
 .card-text {
   transition: all 0.5s ease-in;
   position: absolute;
-  top:0;
+  padding: 4px;
+  top: 0;
   right: 0;
   max-height: 30%;
   overflow: hidden;
@@ -59,16 +60,16 @@
   font-family: "Staatliches", cursive;
 }
 
-.cards{
-  margin:10px 60px 10px 20px;
+.cards {
+  margin: 10px 60px 10px 20px;
 }
 .card-columns {
-  -webkit-column-count:3;
-  -moz-column-count:3;
-  column-count:4;
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 4;
 }
-.poll-main{
+.poll-main {
   display: flex;
-  flex-direction:row ;
+  flex-direction: row;
   justify-content: space-between;
 }

@@ -59,7 +59,7 @@ const PollPassing = ({ pollId, history, passRequest }) => {
   const { id, title, description, imagePath, questions, creator } = poll;
 
   const validateForm = () => {
-    return true;
+    return answers.every(({choiceId}) => choiceId !== undefined);
   };
 
   const handleSubmit = e => {
@@ -81,6 +81,7 @@ const PollPassing = ({ pollId, history, passRequest }) => {
         answer.questionId === questionId ? { ...answer, choiceId } : answer
       )
     );
+    
   };
 
   const headerImage = {
