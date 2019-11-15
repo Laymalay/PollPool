@@ -1,6 +1,32 @@
 body {
-    background-color: rgb(34, 34, 34);
-    color: white;
+    /* dark theme */
+    /* background-color: rgb(34, 34, 34); */
+    /* color: white; */
     font-family: 'Montserrat', sans-serif;
+    color: rgb(65, 65, 65);
+    max-height: 90%;
 }
 
+.custom-radio .custom-control-label::before {
+    background-color: white;
+}
+
+/* This is the checked state */
+
+.custom-radio .custom-control-input:checked~.custom-control-label::before, .custom-radio .custom-control-input:checked~.custom-control-label::after {
+    background-color: rgba(23, 163, 184, 1);
+    border-radius: 50%;
+}
+
+/* active state i.e. displayed while the mouse is being pressed down */
+
+.custom-radio .custom-control-input:active~.custom-control-label::before {
+    color: #fff;
+    background-color: rgba(23, 163, 184, 1);
+}
+
+/* the shadow; displayed while the element is in focus */
+
+.custom-radio .custom-control-input:focus~.custom-control-label::before {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(23, 163, 184, 0.1);
+}

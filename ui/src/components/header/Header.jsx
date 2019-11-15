@@ -15,7 +15,7 @@ export const Header = () => {
   };
 
   return (
-    <Navbar sticky="top" bg="dark" variant="dark">
+    <Navbar sticky="top" variant="dark">
       <Navbar.Brand href="/polls" className="navbar-title">
         PollPool
       </Navbar.Brand>

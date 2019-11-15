@@ -12,19 +12,28 @@ import "./PollPassing.css";
 const PollPassing = ({ pollId, history, passRequest }) => {
   const [answers, setAnswers] = useState([]);
   const [passPoll] = useMutation(CreatePassedPollMutation, {
-    update(cache, { data: { createPassedPoll } }) {
-      const { pollPassedByUser } = cache.readQuery({
+    refetchQueries: [
+      {
         query: pollPassedByUserQuery,
         variables: { poll: pollId }
-      });
-      cache.writeQuery({
-        query: pollPassedByUserQuery,
-        data: {
-          pollPassedByUser: { ...pollPassedByUser, id: createPassedPoll.id }
-        },
-        variables: { poll: pollId }
-      });
-    }
+      }
+    ]
+    // TODO
+    // problem with updating pollPassedByUserQuery when there is no such data in the cache
+    // update(cache, { data: { createPassedPoll } }) {
+    //   const { pollPassedByUser } = cache.readQuery({
+    //     query: pollPassedByUserQuery,
+    //     variables: { poll: pollId }
+    //   });
+
+    //   cache.writeQuery({
+    //     query: pollPassedByUserQuery,
+    //     data: {
+    //       pollPassedByUser: { id: createPassedPoll.id }
+    //     },
+    //     variables: { poll: pollId }
+    //   });
+    // }
   });
 
   const { data: { poll = {} } = {}, loading, error } = useQuery(getPollQuery, {
@@ -61,6 +70,7 @@ const PollPassing = ({ pollId, history, passRequest }) => {
         answeredQuestions: answers
       }
     }).then(data => {
+      console.log(data);
       passRequest(false);
     });
   };
@@ -101,6 +111,7 @@ const PollPassing = ({ pollId, history, passRequest }) => {
                 <Col sm={3}>
                   {question.choices.map(choice => (
                     <Form.Check
+                      custom
                       type="radio"
                       key={`${question.title}${choice.id}`}
                       name={question.title}
@@ -115,7 +126,7 @@ const PollPassing = ({ pollId, history, passRequest }) => {
             <Button
               size="lg"
               variant="outline-info"
-              block
+              className="send-btn"
               disabled={!validateForm()}
               type="submit"
             >

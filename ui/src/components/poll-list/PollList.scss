@@ -1,9 +1,15 @@
 .poll-card {
   margin: 20px;
   width: 18em;
-  padding: 2px;
   min-height: 130px;
   opacity: 0.8;
+  border-radius: 10px;
+  transition: all 0.5s ease-in;  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
+}
+
+.card-img {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 .poll-card:hover {
@@ -12,47 +18,37 @@
 
 .poll-card:hover .pass-btn {
   opacity: 1;
+  height: auto;
+  visibility: visible;
 }
 
 .poll-card:hover .card-text {
   opacity: 1;
-}
-
-.row {
-  margin: 0;
-}
-
-.shadow-on-card {
-  background: rgb(0, 0, 0);
-  background: linear-gradient(180deg, rgba(26, 26, 26, 0.466) 10%, rgba(36, 36, 36, 0.486) 30%, rgba(255, 255, 255, 0) 70%);
-  height: inherit;
-}
-
-.card-content {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
+  visibility: visible;
+  margin-top: 10px;
+  height: auto;
 }
 
 .pass-btn {
-  width: 150px;
-  align-self: center;
   color: white;
-  background-color: rgba(23, 163, 184, 0.466);
-  position: absolute;
-  bottom: 10px;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: all 0.5s ease-in;
+  align-self: flex-end;
+  visibility: hidden;
 }
 
 .card-text {
-  transition: opacity 0.5s;
+  transition: all 0.5s ease-in;
+  position: absolute;
+  top:0;
+  right: 0;
+  max-height: 30%;
   overflow: hidden;
   opacity: 0;
-  margin: 5px 0 5px 0;
-  display: block;
-  max-height: 70%;
-  color: rgb(255, 255, 255);
+  height: 0;
+  visibility: hidden;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.747);
 }
 
 .card-title {
@@ -63,26 +59,16 @@
   font-family: "Staatliches", cursive;
 }
 
-@media (min-width: 576px) {
-  .card-columns {
-    column-count: 2;
-  }
+.cards{
+  margin:10px 60px 10px 20px;
 }
-
-@media (min-width: 768px) {
-  .card-columns {
-    column-count: 3;
-  }
+.card-columns {
+  -webkit-column-count:3;
+  -moz-column-count:3;
+  column-count:4;
 }
-
-@media (min-width: 992px) {
-  .card-columns {
-    column-count: 4;
-  }
-}
-
-@media (min-width: 1200px) {
-  .card-columns {
-    column-count: 4;
-  }
+.poll-main{
+  display: flex;
+  flex-direction:row ;
+  justify-content: space-between;
 }

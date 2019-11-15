@@ -58,6 +58,7 @@ const PassedPoll = ({ passedPollId, history, passRequest }) => {
                   {answer.question.choices.map(choice => (
                     <Form.Check
                       readOnly
+                      custom
                       disabled={answer.choice.id !== choice.id}
                       type="radio"
                       key={`${answer.question.title}${choice.id}`}
@@ -72,7 +73,12 @@ const PassedPoll = ({ passedPollId, history, passRequest }) => {
             );
           })}
           <p>Score: {score * 100}%</p>
-          <Button variant="outline-info" onClick={() => passRequest(true)}>
+          <Button
+            size="lg"
+            variant="outline-info"
+            className="pass-again-btn"
+            onClick={() => passRequest(true)}
+          >
             Pass again
           </Button>
         </div>

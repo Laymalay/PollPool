@@ -85,18 +85,6 @@ export const pollPassedByUserQuery = gql`
   query pollPassedByUser($poll: Int!) {
     pollPassedByUser(poll: $poll) {
       id
-      poll {
-        title
-        imagePath
-        description
-        creator {
-          id
-          username
-        }
-      }
-      user {
-        username
-      }
     }
   }
 `;
