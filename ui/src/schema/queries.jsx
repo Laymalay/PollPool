@@ -77,6 +77,7 @@ export const meQuery = gql`
     me {
       id
       username
+      email
     }
   }
 `;

@@ -30,3 +30,13 @@ body {
 .custom-radio .custom-control-input:focus~.custom-control-label::before {
     box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(23, 163, 184, 0.1);
 }
+
+.hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+}
+a:hover{
+    text-decoration: none;
+}

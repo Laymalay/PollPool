@@ -20,9 +20,17 @@ export const Header = () => {
         PollPool
       </Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link className="nav-link" href="/polls">All Polls</Nav.Link>
-        {authToken && <Nav.Link className="nav-link" href="/userpolls">My Polls</Nav.Link>}
-        <Nav.Link className="nav-link" href="/test">Test</Nav.Link>
+        <Nav.Link className="nav-link" href="/polls">
+          All Polls
+        </Nav.Link>
+        {authToken && (
+          <Nav.Link className="nav-link" href="/userpolls">
+            My Polls
+          </Nav.Link>
+        )}
+        <Nav.Link className="nav-link" href="/test">
+          Test
+        </Nav.Link>
       </Nav>
       {/* <Form inline>
         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -31,7 +39,7 @@ export const Header = () => {
       {username && (
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            Signed in as: <a>{username}</a>
+            Signed in as: <a className="user-link" href="/userprofile">{username}</a>
           </Navbar.Text>
         </Navbar.Collapse>
       )}
