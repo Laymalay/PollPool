@@ -1,12 +1,12 @@
 import React from "react";
 import PollList from "../poll-list/PollList";
-import { useQuery, useMutation } from "react-apollo-hooks";
-import { getAllPollsQuery, meQuery } from "../../schema/queries";
+import { useQuery } from "react-apollo-hooks";
+import { getAllPollsQuery } from "../../schema/queries";
 import { USER_ID } from "../../constants";
-import { Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import Loading from "../shared/loading";
-import gql from "graphql-tag";
+import AddButton from "../shared/add-button";
+
 
 import "./UserPolls.css";
 
@@ -29,9 +29,7 @@ const UserPolls = props => {
   return (
     <>
       {polls.length && <PollList polls={polls} />}
-      <Button className="add-poll-btn" variant="info" onClick={addPoll}>
-        +
-      </Button>
+      <AddButton onClick={addPoll}/>
     </>
   );
 };
