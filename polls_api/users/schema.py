@@ -2,11 +2,12 @@ from django.contrib.auth import get_user_model
 
 import graphene
 from graphene_django import DjangoObjectType
+from users.models import CustomUser
 
 
 class UserType(DjangoObjectType):
     class Meta:
-        model = get_user_model()
+        model = CustomUser
 
 
 class CreateUser(graphene.Mutation):
@@ -29,8 +30,30 @@ class CreateUser(graphene.Mutation):
         return CreateUser(username=user.username, email=user.email)
 
 
+class UpdateUser(graphene.Mutation):
+    email = graphene.String(required=True)
+    first_name = graphene.String(required=True)
+    last_name = graphene.String(required=True)
+    about = graphene.String(required=True)
+    id = graphene.Int(required=True)
+
+    class Arguments:
+        id = graphene.Int(required=True)
+        email = graphene.String(required=True)
+        first_name = graphene.String(required=True)
+        last_name = graphene.String(required=True)
+        about = graphene.String(required=True)
+
+    def mutate(self, info, id, email, first_name, last_name, about):
+        CustomUser.objects.filter(pk=id).update(
+            email=email, first_name=first_name, last_name=last_name, about=about)
+
+        return UpdateUser(id=id, email=email, first_name=first_name, last_name=last_name, about=about)
+
+
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
+    update_user = UpdateUser.Field()
 
 
 class Query(graphene.AbstractType):

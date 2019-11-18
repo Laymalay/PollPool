@@ -16,6 +16,7 @@ import BackButton from "../shared/back-button";
 export const CreatePoll = props => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
   const [imagePath, setImagePath] = useState(
     "https://i.pinimg.com/originals/21/61/8e/21618e399ac27c80aac237c8e2e5021d.jpg"
   );
@@ -23,13 +24,8 @@ export const CreatePoll = props => {
   const [questions, setQuestions] = useState([{}]);
 
   const [createPoll] = useMutation(createPollMutation, {
-    update(
-      cache,
-      {
-        data: { createPoll }
-      }
-    ) {
-      console.log('create poll', createPoll)
+    update(cache, { data: { createPoll } }) {
+      console.log("create poll", createPoll);
       const { allPolls } = cache.readQuery({ query: getAllPollsQuery });
       cache.writeQuery({
         query: getAllPollsQuery,
@@ -43,11 +39,13 @@ export const CreatePoll = props => {
   const headerStyle = {
     backgroundImage: `url(${imagePath})`,
     padding: 10,
+    backgroundSize: "100% 100%",
+    backgroundRepeat: "repeat",
+    backgroundPosition: "center center",
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     height: 250,
     color: "black",
-    filter: "grayscale(80%)",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between"
@@ -65,29 +63,41 @@ export const CreatePoll = props => {
         description,
         imagePath
       }
-    }).then(({ data: { createPoll: { id } } }) => {
-      questions
-        .filter(question => question.questionTitle)
-        .forEach(({ questionTitle, questionAnswer, questionChoices }) => {
-          createQuestion({
-            variables: {
-              answer: questionAnswer,
-              pollId: id,
-              title: questionTitle
-            }
-          }).then(({ data: { createQuestion: { id } } }) => {
-            questionChoices.forEach(item => {
-              createChoice({
-                variables: {
-                  title: item,
-                  questionId: id
+    }).then(
+      ({
+        data: {
+          createPoll: { id }
+        }
+      }) => {
+        questions
+          .filter(question => question.questionTitle)
+          .forEach(({ questionTitle, questionAnswer, questionChoices }) => {
+            createQuestion({
+              variables: {
+                answer: questionAnswer,
+                pollId: id,
+                title: questionTitle
+              }
+            }).then(
+              ({
+                data: {
+                  createQuestion: { id }
                 }
-              });
-            });
+              }) => {
+                questionChoices.forEach(item => {
+                  createChoice({
+                    variables: {
+                      title: item,
+                      questionId: id
+                    }
+                  });
+                });
+              }
+            );
           });
-        });
-      props.history.push("/polls");
-    });
+        props.history.push("/polls");
+      }
+    );
   };
 
   return (
@@ -147,6 +157,7 @@ export const CreatePoll = props => {
         size="lg"
         variant="outline-info"
         block
+        className="create-poll-btn"
         disabled={!validateForm()}
         type="submit"
       >

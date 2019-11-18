@@ -22,3 +22,9 @@
   letter-spacing: 0.1cm;
   margin-top: 15px;
 }
+
+.create-poll-btn {
+  float: right;
+  width: auto;
+  margin-bottom: 20px;
+}

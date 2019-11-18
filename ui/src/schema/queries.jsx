@@ -78,6 +78,9 @@ export const meQuery = gql`
       id
       username
       email
+      firstName
+      lastName
+      about
     }
   }
 `;

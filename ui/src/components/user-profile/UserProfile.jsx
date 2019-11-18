@@ -11,9 +11,6 @@ import "./UserProfile.css";
 const UserProfile = ({ history }) => {
   const { data, loading, error } = useQuery(meQuery);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
   const validateForm = () => {
     return true;
   };
@@ -26,7 +23,7 @@ const UserProfile = ({ history }) => {
 
   return (
     <>
-      <BackButton onClick={() => window.history.back()} />
+      <BackButton onClick={() => history.push("/polls")} />
       <Form onSubmit={handleSubmit}>
         <div className="user-content">
           <div className="column-flex">
@@ -64,8 +61,7 @@ const UserProfile = ({ history }) => {
                   <Col sm="9">
                     <Form.Control
                       type="text"
-                      placeholder="Enter email"
-                      defaultValue={me.username}
+                      defaultValue={me.firstName}
                     />
                   </Col>
                 </Form.Group>
@@ -76,8 +72,7 @@ const UserProfile = ({ history }) => {
                   <Col sm="9">
                     <Form.Control
                       type="text"
-                      placeholder="Enter email"
-                      defaultValue={me.email}
+                      defaultValue={me.lastName}
                     />
                   </Col>
                 </Form.Group>
@@ -89,11 +84,11 @@ const UserProfile = ({ history }) => {
             </div>
             <Form.Group className="user-about" controlId="userForm.about">
               <Form.Label>About</Form.Label>
-              <Form.Control className="sized-textarea" as="textarea" rows="3" />
+              <Form.Control className="sized-textarea" as="textarea" rows="3" defaultValue={me.about} />
             </Form.Group>
           </div>
           <Button className="update-user-btn" size="lg" variant="outline-info">
-            Update
+            Update me
           </Button>
         </div>
       </Form>
