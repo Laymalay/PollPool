@@ -2,6 +2,8 @@ aniso8601==7.0.0
 astroid==2.3.1
 autopep8==1.4.4
 Django==2.2.6
+django-cors-headers==3.2.0
+django-graphql-jwt==0.2.2
 djangorestframework==3.10.3
 graphene==2.1.8
 graphene-django==2.6.0
@@ -11,9 +13,11 @@ isort==4.3.21
 lazy-object-proxy==1.4.2
 mccabe==0.6.1
 pkg-resources==0.0.0
+-e git+git@github.com:Laymalay/PollPool.git@fe1d50c4929dba713b2da11e10a27ac62161d3f0#egg=polls&subdirectory=polls_api
 promise==2.2.1
 psycopg2==2.8.3
 pycodestyle==2.5.0
+PyJWT==1.7.1
 pylint==2.4.2
 pytz==2019.3
 Rx==1.6.1

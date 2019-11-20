@@ -43,6 +43,9 @@ const PassedPoll = ({ passedPollId, history, passRequest }) => {
             username={creator.username}
             description={description}
           />
+          <p className="passed-poll-score">
+            Score: <b>{score * 100}%</b>{" "}
+          </p>
           {answers.map(answer => {
             const style = answer.correct ? "correct" : "wrong";
             return (
@@ -72,7 +75,7 @@ const PassedPoll = ({ passedPollId, history, passRequest }) => {
               </div>
             );
           })}
-          <p>Score: {score * 100}%</p>
+
           <Button
             size="lg"
             variant="outline-info"

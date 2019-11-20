@@ -36,6 +36,7 @@ const UserProfile = ({ history }) => {
                 <Button
                   className="change-user-photo-btn"
                   variant="outline-info"
+                  disabled
                 >
                   Change
                 </Button>
@@ -87,7 +88,7 @@ const UserProfile = ({ history }) => {
               <Form.Control className="sized-textarea" as="textarea" rows="3" defaultValue={me.about} />
             </Form.Group>
           </div>
-          <Button className="update-user-btn" size="lg" variant="outline-info">
+          <Button disabled className="update-user-btn" size="lg" variant="outline-info">
             Update me
           </Button>
         </div>

@@ -1,0 +1,1493 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.10 (Ubuntu 10.10-0ubuntu0.18.04.1)
+-- Dumped by pg_dump version 10.10 (Ubuntu 10.10-0ubuntu0.18.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO pollsuser;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO pollsuser;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO pollsuser;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO pollsuser;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO pollsuser;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO pollsuser;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO pollsuser;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO pollsuser;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO pollsuser;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO pollsuser;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO pollsuser;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO pollsuser;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO pollsuser;
+
+--
+-- Name: polls_passedpoll; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.polls_passedpoll (
+    id integer NOT NULL,
+    score double precision,
+    poll_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.polls_passedpoll OWNER TO pollsuser;
+
+--
+-- Name: polls_passedpoll_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.polls_passedpoll_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.polls_passedpoll_id_seq OWNER TO pollsuser;
+
+--
+-- Name: polls_passedpoll_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.polls_passedpoll_id_seq OWNED BY public.polls_passedpoll.id;
+
+
+--
+-- Name: polls_poll; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.polls_poll (
+    id integer NOT NULL,
+    title character varying(200) NOT NULL,
+    description text,
+    image_path text,
+    creator_id integer NOT NULL
+);
+
+
+ALTER TABLE public.polls_poll OWNER TO pollsuser;
+
+--
+-- Name: polls_poll_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.polls_poll_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.polls_poll_id_seq OWNER TO pollsuser;
+
+--
+-- Name: polls_poll_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.polls_poll_id_seq OWNED BY public.polls_poll.id;
+
+
+--
+-- Name: questions_answeredquestion; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.questions_answeredquestion (
+    id integer NOT NULL,
+    correct boolean NOT NULL,
+    choice_id integer NOT NULL,
+    passed_poll_id integer NOT NULL,
+    question_id integer NOT NULL
+);
+
+
+ALTER TABLE public.questions_answeredquestion OWNER TO pollsuser;
+
+--
+-- Name: questions_answeredquestion_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.questions_answeredquestion_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.questions_answeredquestion_id_seq OWNER TO pollsuser;
+
+--
+-- Name: questions_answeredquestion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.questions_answeredquestion_id_seq OWNED BY public.questions_answeredquestion.id;
+
+
+--
+-- Name: questions_choice; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.questions_choice (
+    id integer NOT NULL,
+    title text NOT NULL,
+    question_id integer NOT NULL
+);
+
+
+ALTER TABLE public.questions_choice OWNER TO pollsuser;
+
+--
+-- Name: questions_choice_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.questions_choice_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.questions_choice_id_seq OWNER TO pollsuser;
+
+--
+-- Name: questions_choice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.questions_choice_id_seq OWNED BY public.questions_choice.id;
+
+
+--
+-- Name: questions_question; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.questions_question (
+    id integer NOT NULL,
+    title text NOT NULL,
+    answer character varying(30) NOT NULL,
+    poll_id integer NOT NULL
+);
+
+
+ALTER TABLE public.questions_question OWNER TO pollsuser;
+
+--
+-- Name: questions_question_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.questions_question_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.questions_question_id_seq OWNER TO pollsuser;
+
+--
+-- Name: questions_question_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.questions_question_id_seq OWNED BY public.questions_question.id;
+
+
+--
+-- Name: users_customuser; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.users_customuser (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL,
+    about text
+);
+
+
+ALTER TABLE public.users_customuser OWNER TO pollsuser;
+
+--
+-- Name: users_customuser_groups; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.users_customuser_groups (
+    id integer NOT NULL,
+    customuser_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.users_customuser_groups OWNER TO pollsuser;
+
+--
+-- Name: users_customuser_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.users_customuser_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_customuser_groups_id_seq OWNER TO pollsuser;
+
+--
+-- Name: users_customuser_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.users_customuser_groups_id_seq OWNED BY public.users_customuser_groups.id;
+
+
+--
+-- Name: users_customuser_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.users_customuser_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_customuser_id_seq OWNER TO pollsuser;
+
+--
+-- Name: users_customuser_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.users_customuser_id_seq OWNED BY public.users_customuser.id;
+
+
+--
+-- Name: users_customuser_user_permissions; Type: TABLE; Schema: public; Owner: pollsuser
+--
+
+CREATE TABLE public.users_customuser_user_permissions (
+    id integer NOT NULL,
+    customuser_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.users_customuser_user_permissions OWNER TO pollsuser;
+
+--
+-- Name: users_customuser_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: pollsuser
+--
+
+CREATE SEQUENCE public.users_customuser_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_customuser_user_permissions_id_seq OWNER TO pollsuser;
+
+--
+-- Name: users_customuser_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pollsuser
+--
+
+ALTER SEQUENCE public.users_customuser_user_permissions_id_seq OWNED BY public.users_customuser_user_permissions.id;
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: polls_passedpoll id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.polls_passedpoll ALTER COLUMN id SET DEFAULT nextval('public.polls_passedpoll_id_seq'::regclass);
+
+
+--
+-- Name: polls_poll id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.polls_poll ALTER COLUMN id SET DEFAULT nextval('public.polls_poll_id_seq'::regclass);
+
+
+--
+-- Name: questions_answeredquestion id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_answeredquestion ALTER COLUMN id SET DEFAULT nextval('public.questions_answeredquestion_id_seq'::regclass);
+
+
+--
+-- Name: questions_choice id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_choice ALTER COLUMN id SET DEFAULT nextval('public.questions_choice_id_seq'::regclass);
+
+
+--
+-- Name: questions_question id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_question ALTER COLUMN id SET DEFAULT nextval('public.questions_question_id_seq'::regclass);
+
+
+--
+-- Name: users_customuser id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser ALTER COLUMN id SET DEFAULT nextval('public.users_customuser_id_seq'::regclass);
+
+
+--
+-- Name: users_customuser_groups id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_groups ALTER COLUMN id SET DEFAULT nextval('public.users_customuser_groups_id_seq'::regclass);
+
+
+--
+-- Name: users_customuser_user_permissions id; Type: DEFAULT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.users_customuser_user_permissions_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add content type	4	add_contenttype
+14	Can change content type	4	change_contenttype
+15	Can delete content type	4	delete_contenttype
+16	Can view content type	4	view_contenttype
+17	Can add session	5	add_session
+18	Can change session	5	change_session
+19	Can delete session	5	delete_session
+20	Can view session	5	view_session
+21	Can add passed poll	6	add_passedpoll
+22	Can change passed poll	6	change_passedpoll
+23	Can delete passed poll	6	delete_passedpoll
+24	Can view passed poll	6	view_passedpoll
+25	Can add poll	7	add_poll
+26	Can change poll	7	change_poll
+27	Can delete poll	7	delete_poll
+28	Can view poll	7	view_poll
+29	Can add question	8	add_question
+30	Can change question	8	change_question
+31	Can delete question	8	delete_question
+32	Can view question	8	view_question
+33	Can add choice	9	add_choice
+34	Can change choice	9	change_choice
+35	Can delete choice	9	delete_choice
+36	Can view choice	9	view_choice
+37	Can add answered question	10	add_answeredquestion
+38	Can change answered question	10	change_answeredquestion
+39	Can delete answered question	10	delete_answeredquestion
+40	Can view answered question	10	view_answeredquestion
+41	Can add user	11	add_customuser
+42	Can change user	11	change_customuser
+43	Can delete user	11	delete_customuser
+44	Can view user	11	view_customuser
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2019-11-18 17:34:45.14814+03	1	First Poll	2	[{"changed": {"name": "question", "object": "What is the capital if Belarus?", "fields": ["answer"]}}]	7	2
+2	2019-11-18 17:34:55.070416+03	3	What is the capital if Belarus?	2	[]	8	2
+3	2019-11-20 13:41:39.280917+03	3	test1	3		11	2
+4	2019-11-20 13:42:23.174792+03	2	manager	2	[{"changed": {"fields": ["username", "about"]}}]	11	2
+5	2019-11-20 14:01:33.814191+03	4	admin	3		11	2
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	contenttypes	contenttype
+5	sessions	session
+6	polls	passedpoll
+7	polls	poll
+8	questions	question
+9	questions	choice
+10	questions	answeredquestion
+11	users	customuser
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2019-11-18 16:46:53.28535+03
+2	contenttypes	0002_remove_content_type_name	2019-11-18 16:46:53.300811+03
+3	auth	0001_initial	2019-11-18 16:46:53.326667+03
+4	auth	0002_alter_permission_name_max_length	2019-11-18 16:46:53.360088+03
+5	auth	0003_alter_user_email_max_length	2019-11-18 16:46:53.368039+03
+6	auth	0004_alter_user_username_opts	2019-11-18 16:46:53.378276+03
+7	auth	0005_alter_user_last_login_null	2019-11-18 16:46:53.385726+03
+8	auth	0006_require_contenttypes_0002	2019-11-18 16:46:53.390996+03
+9	auth	0007_alter_validators_add_error_messages	2019-11-18 16:46:53.408938+03
+10	auth	0008_alter_user_username_max_length	2019-11-18 16:46:53.416869+03
+11	auth	0009_alter_user_last_name_max_length	2019-11-18 16:46:53.423765+03
+12	auth	0010_alter_group_name_max_length	2019-11-18 16:46:53.430072+03
+13	auth	0011_update_proxy_permissions	2019-11-18 16:46:53.437207+03
+14	users	0001_initial	2019-11-18 16:46:53.457979+03
+15	admin	0001_initial	2019-11-18 16:46:53.493451+03
+16	admin	0002_logentry_remove_auto_add	2019-11-18 16:46:53.508681+03
+17	admin	0003_logentry_add_action_flag_choices	2019-11-18 16:46:53.516688+03
+18	polls	0001_initial	2019-11-18 16:46:53.537189+03
+19	polls	0002_auto_20191118_1346	2019-11-18 16:46:53.561558+03
+20	questions	0001_initial	2019-11-18 16:46:53.61263+03
+21	sessions	0001_initial	2019-11-18 16:46:53.653833+03
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+mjaqghge9zprfr3hskx4781bswddvl08	ZmU4NjkyMDg1M2U5MDBmZjdhYjZmNWYyNGE0MzgwNzkwOGM3ZDk5Mzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3MWVhMzk0ODNiMWE3MDg1NGJmMjFiMjlmMTliYjg4OTU5NGFiMWYzIn0=	2019-12-02 17:34:34.911188+03
+\.
+
+
+--
+-- Data for Name: polls_passedpoll; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.polls_passedpoll (id, score, poll_id, user_id) FROM stdin;
+1	0.67000000000000004	1	1
+2	1	1	1
+3	1	1	1
+4	0	1	1
+5	1	1	1
+6	1	1	2
+7	0.330000000000000016	1	2
+8	1	1	2
+9	1	1	2
+10	0.330000000000000016	1	2
+\.
+
+
+--
+-- Data for Name: polls_poll; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.polls_poll (id, title, description, image_path, creator_id) FROM stdin;
+1	First Poll	Super puper challenging poll	https://images.sharefaith.com/images/3/1541196043874_43/img_mouseover3.jpg	1
+\.
+
+
+--
+-- Data for Name: questions_answeredquestion; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.questions_answeredquestion (id, correct, choice_id, passed_poll_id, question_id) FROM stdin;
+1	t	3	1	1
+2	t	4	1	2
+3	f	7	1	3
+4	t	3	2	1
+5	t	4	2	2
+6	t	7	2	3
+7	t	3	3	1
+8	t	4	3	2
+9	t	7	3	3
+10	f	2	4	1
+11	f	5	4	2
+12	f	8	4	3
+13	t	3	5	1
+14	t	4	5	2
+15	t	7	5	3
+16	t	3	6	1
+17	t	4	6	2
+18	t	7	6	3
+19	t	3	7	1
+20	f	5	7	2
+21	f	9	7	3
+22	t	3	8	1
+23	t	4	8	2
+24	t	7	8	3
+25	t	3	9	1
+26	t	4	9	2
+27	t	7	9	3
+28	f	2	10	1
+29	f	5	10	2
+30	t	7	10	3
+\.
+
+
+--
+-- Data for Name: questions_choice; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.questions_choice (id, title, question_id) FROM stdin;
+1	1	1
+2	2	1
+3	4	1
+4	pink	2
+5	red	2
+6	black	2
+7	Minsk	3
+8	Brest	3
+9	London	3
+\.
+
+
+--
+-- Data for Name: questions_question; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.questions_question (id, title, answer, poll_id) FROM stdin;
+1	2+2=	4	1
+2	What is my fav color?	pink	1
+3	What is the capital if Belarus?	Minsk	1
+\.
+
+
+--
+-- Data for Name: users_customuser; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.users_customuser (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, about) FROM stdin;
+1	pbkdf2_sha256$150000$0ObtK0S9xsz7$cAVhDI1RYFIUu/cp5a3BciMEdohnU6dUAORr+wrUhTk=	\N	f	alina	Alina	Zhukouskaya	laymalay@gmail.com	f	t	2019-11-18 16:47:39.713129+03	supergirl
+2	pbkdf2_sha256$150000$LvYoyIVKSguU$V0mQWDLVN7ed83mgjA0ksjdWqGxzSIPvBg9XBGwA+p8=	2019-11-18 17:34:34+03	t	manager			admin@gmail.com	t	t	2019-11-18 17:06:21+03	admin
+5	pbkdf2_sha256$150000$9xOjzyDiH0r6$T5vT8dnjzF0t7QF689R1hUkR0cGcFRJVFT3OZ/O48hc=	\N	t	admin			admin@email.com	t	t	2019-11-20 14:17:15.940575+03	\N
+\.
+
+
+--
+-- Data for Name: users_customuser_groups; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.users_customuser_groups (id, customuser_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users_customuser_user_permissions; Type: TABLE DATA; Schema: public; Owner: pollsuser
+--
+
+COPY public.users_customuser_user_permissions (id, customuser_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 44, true);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 5, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 11, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 21, true);
+
+
+--
+-- Name: polls_passedpoll_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.polls_passedpoll_id_seq', 10, true);
+
+
+--
+-- Name: polls_poll_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.polls_poll_id_seq', 1, true);
+
+
+--
+-- Name: questions_answeredquestion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.questions_answeredquestion_id_seq', 30, true);
+
+
+--
+-- Name: questions_choice_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.questions_choice_id_seq', 9, true);
+
+
+--
+-- Name: questions_question_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.questions_question_id_seq', 3, true);
+
+
+--
+-- Name: users_customuser_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.users_customuser_groups_id_seq', 1, false);
+
+
+--
+-- Name: users_customuser_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.users_customuser_id_seq', 5, true);
+
+
+--
+-- Name: users_customuser_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: pollsuser
+--
+
+SELECT pg_catalog.setval('public.users_customuser_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: polls_passedpoll polls_passedpoll_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.polls_passedpoll
+    ADD CONSTRAINT polls_passedpoll_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: polls_poll polls_poll_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.polls_poll
+    ADD CONSTRAINT polls_poll_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: polls_poll polls_poll_title_key; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.polls_poll
+    ADD CONSTRAINT polls_poll_title_key UNIQUE (title);
+
+
+--
+-- Name: questions_answeredquestion questions_answeredquestion_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_answeredquestion
+    ADD CONSTRAINT questions_answeredquestion_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: questions_choice questions_choice_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_choice
+    ADD CONSTRAINT questions_choice_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: questions_question questions_question_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_question
+    ADD CONSTRAINT questions_question_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_customuser_groups users_customuser_groups_customuser_id_group_id_76b619e3_uniq; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_groups
+    ADD CONSTRAINT users_customuser_groups_customuser_id_group_id_76b619e3_uniq UNIQUE (customuser_id, group_id);
+
+
+--
+-- Name: users_customuser_groups users_customuser_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_groups
+    ADD CONSTRAINT users_customuser_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_customuser users_customuser_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser
+    ADD CONSTRAINT users_customuser_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_customuser_user_permissions users_customuser_user_pe_customuser_id_permission_7a7debf6_uniq; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_user_permissions
+    ADD CONSTRAINT users_customuser_user_pe_customuser_id_permission_7a7debf6_uniq UNIQUE (customuser_id, permission_id);
+
+
+--
+-- Name: users_customuser_user_permissions users_customuser_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_user_permissions
+    ADD CONSTRAINT users_customuser_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_customuser users_customuser_username_key; Type: CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser
+    ADD CONSTRAINT users_customuser_username_key UNIQUE (username);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: polls_passedpoll_poll_id_c2adc911; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX polls_passedpoll_poll_id_c2adc911 ON public.polls_passedpoll USING btree (poll_id);
+
+
+--
+-- Name: polls_passedpoll_user_id_6a53027d; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX polls_passedpoll_user_id_6a53027d ON public.polls_passedpoll USING btree (user_id);
+
+
+--
+-- Name: polls_poll_creator_id_5a973d45; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX polls_poll_creator_id_5a973d45 ON public.polls_poll USING btree (creator_id);
+
+
+--
+-- Name: polls_poll_title_8cfd68a0_like; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX polls_poll_title_8cfd68a0_like ON public.polls_poll USING btree (title varchar_pattern_ops);
+
+
+--
+-- Name: questions_answeredquestion_choice_id_0fc30d75; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX questions_answeredquestion_choice_id_0fc30d75 ON public.questions_answeredquestion USING btree (choice_id);
+
+
+--
+-- Name: questions_answeredquestion_passed_poll_id_bfd44449; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX questions_answeredquestion_passed_poll_id_bfd44449 ON public.questions_answeredquestion USING btree (passed_poll_id);
+
+
+--
+-- Name: questions_answeredquestion_question_id_4e46163f; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX questions_answeredquestion_question_id_4e46163f ON public.questions_answeredquestion USING btree (question_id);
+
+
+--
+-- Name: questions_choice_question_id_2d0da4e9; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX questions_choice_question_id_2d0da4e9 ON public.questions_choice USING btree (question_id);
+
+
+--
+-- Name: questions_question_poll_id_5734de32; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX questions_question_poll_id_5734de32 ON public.questions_question USING btree (poll_id);
+
+
+--
+-- Name: users_customuser_groups_customuser_id_958147bf; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX users_customuser_groups_customuser_id_958147bf ON public.users_customuser_groups USING btree (customuser_id);
+
+
+--
+-- Name: users_customuser_groups_group_id_01390b14; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX users_customuser_groups_group_id_01390b14 ON public.users_customuser_groups USING btree (group_id);
+
+
+--
+-- Name: users_customuser_user_permissions_customuser_id_5771478b; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX users_customuser_user_permissions_customuser_id_5771478b ON public.users_customuser_user_permissions USING btree (customuser_id);
+
+
+--
+-- Name: users_customuser_user_permissions_permission_id_baaa2f74; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX users_customuser_user_permissions_permission_id_baaa2f74 ON public.users_customuser_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: users_customuser_username_80452fdf_like; Type: INDEX; Schema: public; Owner: pollsuser
+--
+
+CREATE INDEX users_customuser_username_80452fdf_like ON public.users_customuser USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_users_customuser_id; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_users_customuser_id FOREIGN KEY (user_id) REFERENCES public.users_customuser(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: polls_passedpoll polls_passedpoll_poll_id_c2adc911_fk_polls_poll_id; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.polls_passedpoll
+    ADD CONSTRAINT polls_passedpoll_poll_id_c2adc911_fk_polls_poll_id FOREIGN KEY (poll_id) REFERENCES public.polls_poll(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: polls_passedpoll polls_passedpoll_user_id_6a53027d_fk_users_customuser_id; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.polls_passedpoll
+    ADD CONSTRAINT polls_passedpoll_user_id_6a53027d_fk_users_customuser_id FOREIGN KEY (user_id) REFERENCES public.users_customuser(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: polls_poll polls_poll_creator_id_5a973d45_fk_users_customuser_id; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.polls_poll
+    ADD CONSTRAINT polls_poll_creator_id_5a973d45_fk_users_customuser_id FOREIGN KEY (creator_id) REFERENCES public.users_customuser(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: questions_answeredquestion questions_answeredqu_choice_id_0fc30d75_fk_questions; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_answeredquestion
+    ADD CONSTRAINT questions_answeredqu_choice_id_0fc30d75_fk_questions FOREIGN KEY (choice_id) REFERENCES public.questions_choice(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: questions_answeredquestion questions_answeredqu_passed_poll_id_bfd44449_fk_polls_pas; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_answeredquestion
+    ADD CONSTRAINT questions_answeredqu_passed_poll_id_bfd44449_fk_polls_pas FOREIGN KEY (passed_poll_id) REFERENCES public.polls_passedpoll(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: questions_answeredquestion questions_answeredqu_question_id_4e46163f_fk_questions; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_answeredquestion
+    ADD CONSTRAINT questions_answeredqu_question_id_4e46163f_fk_questions FOREIGN KEY (question_id) REFERENCES public.questions_question(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: questions_choice questions_choice_question_id_2d0da4e9_fk_questions_question_id; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_choice
+    ADD CONSTRAINT questions_choice_question_id_2d0da4e9_fk_questions_question_id FOREIGN KEY (question_id) REFERENCES public.questions_question(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: questions_question questions_question_poll_id_5734de32_fk_polls_poll_id; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.questions_question
+    ADD CONSTRAINT questions_question_poll_id_5734de32_fk_polls_poll_id FOREIGN KEY (poll_id) REFERENCES public.polls_poll(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_customuser_groups users_customuser_gro_customuser_id_958147bf_fk_users_cus; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_groups
+    ADD CONSTRAINT users_customuser_gro_customuser_id_958147bf_fk_users_cus FOREIGN KEY (customuser_id) REFERENCES public.users_customuser(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_customuser_groups users_customuser_groups_group_id_01390b14_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_groups
+    ADD CONSTRAINT users_customuser_groups_group_id_01390b14_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_customuser_user_permissions users_customuser_use_customuser_id_5771478b_fk_users_cus; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_user_permissions
+    ADD CONSTRAINT users_customuser_use_customuser_id_5771478b_fk_users_cus FOREIGN KEY (customuser_id) REFERENCES public.users_customuser(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_customuser_user_permissions users_customuser_use_permission_id_baaa2f74_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: pollsuser
+--
+
+ALTER TABLE ONLY public.users_customuser_user_permissions
+    ADD CONSTRAINT users_customuser_use_permission_id_baaa2f74_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
