@@ -1,9 +1,12 @@
 import graphene
 import graphql_jwt
+from django.contrib.auth import logout
 
 import polls.schema
 import questions.schema
 import users.schema
+from users.schema import UserType
+from graphene_django.types import DjangoObjectType
 
 
 class Query(polls.schema.Query,
@@ -15,12 +18,21 @@ class Query(polls.schema.Query,
     pass
 
 
+class ObtainJSONWebToken(graphql_jwt.JSONWebTokenMutation):
+    user = graphene.Field(UserType)
+
+    @classmethod
+    def resolve(cls, root, info, **kwargs):
+        logout(info.context)
+        return cls(user=info.context.user)
+
+
 class Mutation(polls.schema.Mutation,
                questions.schema.Mutation,
                users.schema.Mutation,
                graphene.ObjectType):
 
-    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    token_auth = ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()
 

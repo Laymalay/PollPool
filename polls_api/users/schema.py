@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from graphql_jwt.decorators import login_required
 
 import graphene
 from graphene_django import DjangoObjectType
@@ -44,6 +45,7 @@ class UpdateUser(graphene.Mutation):
         last_name = graphene.String(required=True)
         about = graphene.String(required=True)
 
+    @login_required
     def mutate(self, info, id, email, first_name, last_name, about):
         CustomUser.objects.filter(pk=id).update(
             email=email, first_name=first_name, last_name=last_name, about=about)
@@ -60,9 +62,11 @@ class Query(graphene.AbstractType):
     me = graphene.Field(UserType)
     users = graphene.List(UserType)
 
+    @login_required
     def resolve_users(self, info):
         return get_user_model().objects.all()
 
+    @login_required
     def resolve_me(self, info):
         user = info.context.user
         if user.is_anonymous:

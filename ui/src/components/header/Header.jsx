@@ -1,56 +1,83 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useQuery } from "react-apollo-hooks";
 import { withRouter } from "react-router";
-import { AUTH_TOKEN, USER_ID, USER_NAME } from "../../constants";
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
-import "./Header.css";
+import { Link } from "react-router-dom";
 
-export const Header = () => {
-  const authToken = localStorage.getItem(AUTH_TOKEN);
-  const username = localStorage.getItem(USER_NAME);
+import { meQuery } from "../../schema/queries";
+import { AUTH_TOKEN, USER_ID, USER_NAME } from "../../constants";
+import { Navbar, Nav } from "react-bootstrap";
+import "./Header.css";
+import { useApolloClient } from "@apollo/react-hooks";
+
+export const Header = props => {
+  let authToken = localStorage.getItem(AUTH_TOKEN);
+
+  const { data: { me = {} } = {} } = useQuery(meQuery);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [username, setUsername] = useState("");
+  const client = useApolloClient();
 
   const logout = () => {
     localStorage.removeItem(AUTH_TOKEN);
     localStorage.removeItem(USER_ID);
     localStorage.removeItem(USER_NAME);
+    client.writeData({ data: { isLoggedIn: false } });
   };
+
+  useEffect(() => {
+    console.log("useeffect, is admin ?", me && me.isStaff, me.username);
+    me && me.isStaff ? setIsAdmin(true) : setIsAdmin(false);
+    setUsername(me.username);
+  }, [me]);
 
   return (
     <Navbar sticky="top" variant="dark">
-      <Navbar.Brand href="/polls" className="navbar-title">
-        PollPool
+      <Navbar.Brand className="navbar-title">
+        <Link className="navbar-title" to="/polls">
+          PollPool
+        </Link>
       </Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link className="nav-link" href="/polls">
+        <Link className="nav-link" to="/polls">
           All Polls
-        </Nav.Link>
+        </Link>
         {authToken && (
-          <Nav.Link className="nav-link" href="/userpolls">
+          <Link className="nav-link" to="/userpolls">
             My Polls
-          </Nav.Link>
+          </Link>
         )}
-        <Nav.Link className="nav-link" href="/test">
+        <Link className="nav-link" to="/test">
           Test
-        </Nav.Link>
+        </Link>
       </Nav>
-      {/* <Form inline>
-        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-        <Button variant="outline-info">Search</Button>
-      </Form> */}
+
       {username && (
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            Signed in as: <a className="user-link" href="/userprofile">{username}</a>
+            Signed in as:{" "}
+            <Link className="user-link" to="/userprofile">
+              {username}
+            </Link>
           </Navbar.Text>
+          {isAdmin && (
+            <a
+              className="settings-link"
+              href="http://localhost:8000/admin"
+              target="_blank"
+            >
+              settings
+            </a>
+          )}
         </Navbar.Collapse>
       )}
       {authToken ? (
-        <Nav.Link href="/login" className="nav-link" onClick={logout}>
+        <Link onClick={logout} className="nav-link" to="/login">
           Logout
-        </Nav.Link>
+        </Link>
       ) : (
-        <Nav.Link className="nav-link" href="/login">
+        <Link className="nav-link" to="/login">
           Login
-        </Nav.Link>
+        </Link>
       )}
     </Navbar>
   );

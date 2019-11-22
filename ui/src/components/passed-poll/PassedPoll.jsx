@@ -1,13 +1,12 @@
 import React from "react";
 import { getPassedPollQuery } from "../../schema/queries";
-import { useQuery, useMutation } from "react-apollo";
+import { useQuery } from "react-apollo";
 import Loading from "../shared/loading";
 import PollHeader from "../shared/poll-header";
 import { Button, Row, Form, Col } from "react-bootstrap";
 import { withRouter } from "react-router";
 
 import "./PassedPoll.scss";
-
 const PassedPoll = ({ passedPollId, history, passRequest }) => {
   const { data: { passedPoll = {} } = {}, loading, error } = useQuery(
     getPassedPollQuery,

@@ -14,23 +14,30 @@ import { meQuery } from "../../schema/queries";
 import { withRouter } from "react-router";
 import { useLazyQuery } from "@apollo/react-hooks";
 import Loading from "../shared/loading";
+import { useApolloClient } from "@apollo/react-hooks";
 
-const Login = props => {
+const Login = ({ history }) => {
+  const client = useApolloClient();
+
   const [isLogin, setIsLogin] = useState(true);
-
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const [login] = useMutation(LoginMutation);
   const [signUp] = useMutation(SignupMutation);
-  const [getMe, { loadingUser, data }] = useLazyQuery(meQuery);
+  const [getMe, { loadingUser, data }] = useLazyQuery(meQuery, {
+    fetchPolicy: "network-only"
+  });
 
   if (loadingUser) return <Loading />;
 
   if (data && data.me) {
     localStorage.setItem(USER_ID, data.me.id);
     localStorage.setItem(USER_NAME, data.me.username);
-    props.history.push("/polls");
+    history.push("/polls");
+    console.log("get me", data.me.username);
+    client.writeData({ data: { isLoggedIn: true } });
   }
 
   const validateForm = () => {
@@ -55,10 +62,16 @@ const Login = props => {
         username,
         password
       }
-    }).then(({ data: { tokenAuth: { token } } }) => {
-      localStorage.setItem(AUTH_TOKEN, token);
-      getMe();
-    });
+    }).then(
+      ({
+        data: {
+          tokenAuth: { token }
+        }
+      }) => {
+        localStorage.setItem(AUTH_TOKEN, token);
+        getMe();
+      }
+    );
   };
 
   return (

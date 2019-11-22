@@ -92,8 +92,6 @@ export const Question = ({ question, updateQuestions }) => {
             >
               +
             </Button>
-         
-
           )}
         </Col>
       </Row>

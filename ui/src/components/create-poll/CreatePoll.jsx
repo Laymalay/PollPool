@@ -25,7 +25,6 @@ export const CreatePoll = props => {
 
   const [createPoll] = useMutation(createPollMutation, {
     update(cache, { data: { createPoll } }) {
-      console.log("create poll", createPoll);
       const { allPolls } = cache.readQuery({ query: getAllPollsQuery });
       cache.writeQuery({
         query: getAllPollsQuery,

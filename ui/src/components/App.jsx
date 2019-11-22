@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AllPolls from "./all-polls";
 import Header from "./header";
 import Login from "./login";
-import { Switch, Route } from "react-router";
+import { useQuery } from "react-apollo-hooks";
+
+import { isUserLoggedInQuery } from "../schema/queries";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreatePoll from "./create-poll";
 import PollView from "./poll-view";
 import UserPolls from "./user-polls";
 import UserProfile from "./user-profile";
 
 const App = () => {
+  const { data } = useQuery(isUserLoggedInQuery);
+
   return (
-    <div>
-      <Header />
+    <Router>
+      {data.isLoggedIn && <Header />}
       <Switch>
         <Route exact path="/" component={AllPolls} />
         <Route path="/polls" component={AllPolls} />
@@ -22,7 +27,7 @@ const App = () => {
         <Route path="/login" component={Login} />
         <Route render={() => <h2>Page not found</h2>} />
       </Switch>
-    </div>
+    </Router>
   );
 };
 

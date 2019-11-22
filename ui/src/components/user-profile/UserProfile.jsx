@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { meQuery } from "../../schema/queries";
 import { withRouter } from "react-router-dom";
@@ -11,9 +11,9 @@ import "./UserProfile.css";
 const UserProfile = ({ history }) => {
   const { data, loading, error } = useQuery(meQuery);
 
-  const validateForm = () => {
-    return true;
-  };
+  // const validateForm = () => {
+  //   return true;
+  // };
   const handleSubmit = event => {};
 
   if (loading) return <Loading />;
@@ -30,6 +30,7 @@ const UserProfile = ({ history }) => {
             <div className="row-flex">
               <div className="column-flex">
                 <img
+                  alt="userpic"
                   className="user-pic"
                   src="https://img2.freepng.ru/20180504/phe/kisspng-professional-computer-icons-avatar-job-5aec571ec854c8.3222584415254382388206.jpg"
                 />
@@ -60,10 +61,7 @@ const UserProfile = ({ history }) => {
                     FirstName
                   </Form.Label>
                   <Col sm="9">
-                    <Form.Control
-                      type="text"
-                      defaultValue={me.firstName}
-                    />
+                    <Form.Control type="text" defaultValue={me.firstName} />
                   </Col>
                 </Form.Group>
                 <Form.Group as={Row} controlId="userForm.lastName">
@@ -71,10 +69,7 @@ const UserProfile = ({ history }) => {
                     LastName
                   </Form.Label>
                   <Col sm="9">
-                    <Form.Control
-                      type="text"
-                      defaultValue={me.lastName}
-                    />
+                    <Form.Control type="text" defaultValue={me.lastName} />
                   </Col>
                 </Form.Group>
                 <div className="hr" />
@@ -85,10 +80,20 @@ const UserProfile = ({ history }) => {
             </div>
             <Form.Group className="user-about" controlId="userForm.about">
               <Form.Label>About</Form.Label>
-              <Form.Control className="sized-textarea" as="textarea" rows="3" defaultValue={me.about} />
+              <Form.Control
+                className="sized-textarea"
+                as="textarea"
+                rows="3"
+                defaultValue={me.about}
+              />
             </Form.Group>
           </div>
-          <Button disabled className="update-user-btn" size="lg" variant="outline-info">
+          <Button
+            disabled
+            className="update-user-btn"
+            size="lg"
+            variant="outline-info"
+          >
             Update me
           </Button>
         </div>

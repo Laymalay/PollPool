@@ -1,7 +1,7 @@
 import graphene
 
 from graphene_django.types import DjangoObjectType
-
+from graphql_jwt.decorators import login_required
 
 from polls.models import Poll, PassedPoll
 from questions.schema import QuestionType, AnsweredQuestionType
@@ -38,19 +38,22 @@ class Query(object):
     poll_passed_by_user = graphene.Field(
         PassedPollType, poll=graphene.Int())
 
+    @login_required
     def resolve_poll_passed_by_user(self, info, **kwargs):
         poll = kwargs.get("poll")
         user = info.context.user
         if poll:
             return PassedPoll.objects.filter(user=user, poll=poll).last()
         return PassedPoll.objects.none()
-
+    
+    @login_required
     def resolve_all_polls(self, info, **kwargs):
         creator = kwargs.get('creator')
         if creator:
             return Poll.objects.filter(creator=creator)
         return Poll.objects.all()
-
+    
+    @login_required
     def resolve_poll(self, info, **kwargs):
         id = kwargs.get('id')
         title = kwargs.get('title')
@@ -62,13 +65,15 @@ class Query(object):
             return Poll.objects.get(title=title)
 
         return None
-
+    
+    @login_required
     def resolve_all_passed_polls(self, info, **kwargs):
         user = kwargs.get('user')
         if user:
             return PassedPoll.objects.filter(user=user)
         return PassedPoll.objects.all()
-
+    
+    @login_required
     def resolve_passed_poll(self, info, **kwargs):
         id = kwargs.get('id')
 
@@ -91,6 +96,7 @@ class UpdatePoll(graphene.Mutation):
 
     poll = graphene.Field(PollType)
 
+    @login_required
     def mutate(self, info, title, id):
         poll = Poll.objects.get(pk=id)
         poll.title = title
@@ -115,6 +121,7 @@ class CreatePoll(graphene.Mutation):
 
     poll = graphene.Field(PollType)
 
+    @login_required
     def mutate(self, info, title, description, image_path):
         poll = Poll(title=title, creator=info.context.user,
                     description=description, image_path=image_path)
@@ -156,6 +163,7 @@ class CreatePassedPoll(graphene.Mutation):
 
     passed_poll = graphene.Field(PassedPollType)
 
+    @login_required
     def mutate(self, info, poll_id, answered_questions):
         poll = Poll.objects.get(pk=poll_id)
         passed_poll = PassedPoll(poll=poll, user=info.context.user)

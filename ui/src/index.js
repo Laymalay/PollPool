@@ -2,9 +2,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './styles/custom.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-// import './styles/index.css';
 import App from './components/App';
+
 import * as serviceWorker from './serviceWorker';
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
@@ -15,6 +14,13 @@ import { setContext } from 'apollo-link-context';
 import Cookies from 'js-cookie';
 import { from } from 'apollo-link';
 import { AUTH_TOKEN } from './constants'
+import { useQuery } from "react-apollo-hooks";
+
+import { CookiesProvider } from 'react-cookie';
+import { resolvers, typeDefs } from './resolvers';
+
+import gql from "graphql-tag";
+
 
 const httpLink = createHttpLink({
     // TODO: movappe to environment
@@ -35,7 +41,7 @@ async function getCsrfToken() {
 const authMiddleware = setContext(async (req, { headers }) => {
     const token = localStorage.getItem(AUTH_TOKEN);
     const csrftoken = await getCsrfToken();
-    
+
     Cookies.set('csrftoken', csrftoken);
     return {
         headers: {
@@ -46,22 +52,29 @@ const authMiddleware = setContext(async (req, { headers }) => {
     };
 });
 
-
 const client = new ApolloClient({
     uri: 'http://localhost:8000/graphql',
     cache: new InMemoryCache(),
     credentials: 'include',
     link: from([authMiddleware, httpLink]),
+    typeDefs,
+    resolvers,
+});
+
+client.cache.writeData({
+    data: {
+        isLoggedIn: !!localStorage.getItem(AUTH_TOKEN),
+    },
 });
 
 ReactDOM.render(
-    <BrowserRouter>
+    <CookiesProvider>
         <ApolloProvider client={client}>
             <ApolloHooksProvider client={client}>
                 <App />
             </ApolloHooksProvider>
         </ApolloProvider>
-    </BrowserRouter>,
+    </CookiesProvider>,
     document.getElementById('root')
 )
 

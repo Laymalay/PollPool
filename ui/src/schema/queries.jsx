@@ -81,6 +81,7 @@ export const meQuery = gql`
       firstName
       lastName
       about
+      isStaff
     }
   }
 `;
@@ -90,5 +91,10 @@ export const pollPassedByUserQuery = gql`
     pollPassedByUser(poll: $poll) {
       id
     }
+  }
+`;
+export const isUserLoggedInQuery = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
   }
 `;

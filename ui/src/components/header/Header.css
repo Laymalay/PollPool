@@ -1,5 +1,6 @@
 .navbar-title {
     letter-spacing: 0.1cm;
+    color: white;
     text-transform: uppercase;
     font-family: 'Staatliches', cursive;
 }
@@ -24,4 +25,8 @@
 .user-link:hover {
     color: rgba(255, 255, 255, 0.411);
     font-weight: bold;
+}
+.settings-link{
+    color: white;
+    margin-left: 5px;
 }

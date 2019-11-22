@@ -8,8 +8,9 @@ tmux split-window -h
 tmux select-pane -t 0
 tmux send-keys "cd polls_api; source venv/bin/activate; manage.py runserver" C-m
 tmux select-pane -t 1
+tmux resize-pane -L 30
 tmux send-keys "cd ui; npm start" C-m
 tmux split-window -v
-tmux resize-pane -D 60
+tmux resize-pane -U 30
 
 tmux -2 attach-session -t $SESSION

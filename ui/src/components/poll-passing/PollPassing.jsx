@@ -70,7 +70,6 @@ const PollPassing = ({ pollId, history, passRequest }) => {
         answeredQuestions: answers
       }
     }).then(data => {
-      console.log(data);
       passRequest(false);
     });
   };
