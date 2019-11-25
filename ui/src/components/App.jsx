@@ -16,14 +16,13 @@ import PrivateRoute from "./PrivateRoute";
 
 const App = () => {
   const client = useApolloClient();
-  const { data: { me } = {}, loading, error } = useQuery(meQuery, {
+  const { data: { me } = {}, loading } = useQuery(meQuery, {
     fetchPolicy: "network-only"
   });
 
   const { data: { isLoggedIn } = false } = useQuery(isUserLoggedInQuery);
 
   if (loading) return <Loading />;
-  if (error) return <>Error</>;
 
   if (me) {
     client.writeData({ data: { currentUser: me } });
