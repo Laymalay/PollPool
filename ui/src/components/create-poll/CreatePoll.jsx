@@ -1,21 +1,30 @@
 import React, { useState } from "react";
 import { useMutation } from "react-apollo-hooks";
+import { useQuery } from "react-apollo-hooks";
 import {
   createPollMutation,
   createChoiceMutation,
   createQuestionMutation
 } from "../../schema/mutations";
-import { getAllPollsQuery } from "../../schema/queries";
+import { getAllPollsQuery, getCurrentUserQuery } from "../../schema/queries";
 import { Form, Button, Col } from "react-bootstrap";
 import Question from "../question";
 import { withRouter } from "react-router";
 import "./CreatePoll.css";
-import { USER_NAME } from "../../constants";
 import BackButton from "../shared/back-button";
+import { useApolloClient } from "@apollo/react-hooks";
 
 export const CreatePoll = props => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
+  const client = useApolloClient();
+
+  const {
+    data: {
+      currentUser: { username }
+    }
+  } = useQuery(getCurrentUserQuery);
 
   const [imagePath, setImagePath] = useState(
     "https://i.pinimg.com/originals/21/61/8e/21618e399ac27c80aac237c8e2e5021d.jpg"
@@ -124,11 +133,7 @@ export const CreatePoll = props => {
             Creator:
           </Form.Label>
           <Form.Group as={Col} md="2" controlId="formCreator">
-            <Form.Control
-              type="text"
-              disabled
-              value={localStorage.getItem(USER_NAME)}
-            />
+            <Form.Control type="text" disabled value={username} />
           </Form.Group>
         </Form.Row>
         <Form.Group controlId="formDescription">

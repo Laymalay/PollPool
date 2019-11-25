@@ -23,7 +23,8 @@ class ObtainJSONWebToken(graphql_jwt.JSONWebTokenMutation):
 
     @classmethod
     def resolve(cls, root, info, **kwargs):
-        logout(info.context)
+        if info.context.user.is_authenticated:
+            logout(info.context)
         return cls(user=info.context.user)
 
 

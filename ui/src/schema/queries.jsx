@@ -93,8 +93,23 @@ export const pollPassedByUserQuery = gql`
     }
   }
 `;
+
 export const isUserLoggedInQuery = gql`
   query IsUserLoggedIn {
     isLoggedIn @client
+  }
+`;
+
+export const getCurrentUserQuery = gql`
+  query getCurrentUserQuery {
+    currentUser @client {
+      id
+      username
+      email
+      firstName
+      lastName
+      about
+      isStaff
+    }
   }
 `;

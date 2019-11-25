@@ -1,31 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import AllPolls from "./all-polls";
 import Header from "./header";
 import Login from "./login";
 import { useQuery } from "react-apollo-hooks";
+import Loading from "./shared/loading";
 
-import { isUserLoggedInQuery } from "../schema/queries";
+import { meQuery, isUserLoggedInQuery } from "../schema/queries";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreatePoll from "./create-poll";
 import PollView from "./poll-view";
 import UserPolls from "./user-polls";
 import UserProfile from "./user-profile";
+import { useApolloClient } from "@apollo/react-hooks";
+import PrivateRoute from "./PrivateRoute";
 
 const App = () => {
-  const { data } = useQuery(isUserLoggedInQuery);
+  const client = useApolloClient();
+  const { data: { me } = {}, loading, error } = useQuery(meQuery, {
+    fetchPolicy: "network-only"
+  });
+
+  const { data: { isLoggedIn } = false } = useQuery(isUserLoggedInQuery);
+
+  if (loading) return <Loading />;
+  if (error) return <>Error</>;
+
+  if (me) {
+    client.writeData({ data: { currentUser: me } });
+  }
 
   return (
     <Router>
-      {data.isLoggedIn && <Header />}
+      {isLoggedIn && <Header />}
+      {!isLoggedIn && <Route path="/login" component={Login} />}
       <Switch>
-        <Route exact path="/" component={AllPolls} />
-        <Route path="/polls" component={AllPolls} />
-        <Route path="/pollview/:id" component={PollView} />
-        <Route path="/userpolls" component={UserPolls} />
-        <Route path="/userprofile" component={UserProfile} />
-        <Route path="/createpoll" component={CreatePoll} />
-        <Route path="/login" component={Login} />
-        <Route render={() => <h2>Page not found</h2>} />
+        <PrivateRoute exact path="/" component={AllPolls} />
+        <PrivateRoute path="/polls" component={AllPolls} />
+        <PrivateRoute path="/pollview/:id" component={PollView} />
+        <PrivateRoute path="/userpolls" component={UserPolls} />
+        <PrivateRoute path="/userprofile" component={UserProfile} />
+        <PrivateRoute path="/createpoll" component={CreatePoll} />
+        <PrivateRoute render={() => <h2>Page not found</h2>} />
       </Switch>
     </Router>
   );

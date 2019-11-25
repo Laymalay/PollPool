@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "react-apollo-hooks";
-import { meQuery } from "../../schema/queries";
+import { getCurrentUserQuery } from "../../schema/queries";
 import { withRouter } from "react-router-dom";
 import Loading from "../shared/loading";
 import { Form, Button, Col, Row } from "react-bootstrap";
@@ -9,17 +9,22 @@ import BackButton from "../shared/back-button";
 import "./UserProfile.css";
 
 const UserProfile = ({ history }) => {
-  const { data, loading, error } = useQuery(meQuery);
+  const {
+    data: {
+      currentUser: { username, email, firstName, lastName, about } = {}
+    } = {},
+    loading,
+    error
+  } = useQuery(getCurrentUserQuery);
 
   // const validateForm = () => {
   //   return true;
   // };
+
   const handleSubmit = event => {};
 
   if (loading) return <Loading />;
   if (error) return <>Error</>;
-
-  const { me } = data;
 
   return (
     <>
@@ -43,7 +48,7 @@ const UserProfile = ({ history }) => {
                 </Button>
               </div>
               <div className="main-user-info">
-                <div className="username">{me.username}</div>
+                <div className="username">{username}</div>
                 <Form.Group as={Row} controlId="userForm.email">
                   <Form.Label column sm="3">
                     Email
@@ -52,7 +57,7 @@ const UserProfile = ({ history }) => {
                     <Form.Control
                       type="email"
                       placeholder="Enter email"
-                      defaultValue={me.email}
+                      defaultValue={email}
                     />
                   </Col>
                 </Form.Group>
@@ -61,7 +66,7 @@ const UserProfile = ({ history }) => {
                     FirstName
                   </Form.Label>
                   <Col sm="9">
-                    <Form.Control type="text" defaultValue={me.firstName} />
+                    <Form.Control type="text" defaultValue={firstName} />
                   </Col>
                 </Form.Group>
                 <Form.Group as={Row} controlId="userForm.lastName">
@@ -69,7 +74,7 @@ const UserProfile = ({ history }) => {
                     LastName
                   </Form.Label>
                   <Col sm="9">
-                    <Form.Control type="text" defaultValue={me.lastName} />
+                    <Form.Control type="text" defaultValue={lastName} />
                   </Col>
                 </Form.Group>
                 <div className="hr" />
@@ -84,7 +89,7 @@ const UserProfile = ({ history }) => {
                 className="sized-textarea"
                 as="textarea"
                 rows="3"
-                defaultValue={me.about}
+                defaultValue={about}
               />
             </Form.Group>
           </div>

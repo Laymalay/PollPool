@@ -5,6 +5,11 @@
     font-family: 'Staatliches', cursive;
 }
 
+.navbar-title:hover {
+    color: white;
+    font-weight: bold;
+}
+
 .nav-link {
     color: rgba(255, 255, 255, 0.5);
 }
@@ -26,7 +31,8 @@
     color: rgba(255, 255, 255, 0.411);
     font-weight: bold;
 }
-.settings-link{
+
+.settings-link {
     color: white;
     margin-left: 5px;
 }

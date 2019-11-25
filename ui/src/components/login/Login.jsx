@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { AUTH_TOKEN, USER_ID, USER_NAME } from "../../constants";
+import { AUTH_TOKEN } from "../../constants";
 import {
   Button,
   Form,
   FormGroup,
   FormControl,
-  FormLabel
+  FormLabel,
+  Alert
 } from "react-bootstrap";
 import "./Login.css";
 import { useMutation } from "react-apollo-hooks";
@@ -18,7 +19,8 @@ import { useApolloClient } from "@apollo/react-hooks";
 
 const Login = ({ history }) => {
   const client = useApolloClient();
-
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertText, setAlertText] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -33,11 +35,8 @@ const Login = ({ history }) => {
   if (loadingUser) return <Loading />;
 
   if (data && data.me) {
-    localStorage.setItem(USER_ID, data.me.id);
-    localStorage.setItem(USER_NAME, data.me.username);
+    client.writeData({ data: { isLoggedIn: true, currentUser: data.me } });
     history.push("/polls");
-    console.log("get me", data.me.username);
-    client.writeData({ data: { isLoggedIn: true } });
   }
 
   const validateForm = () => {
@@ -54,7 +53,12 @@ const Login = ({ history }) => {
           password,
           username
         }
-      }).then(() => setIsLogin(true));
+      })
+        .then(() => setIsLogin(true))
+        .catch(e => {
+          setShowAlert(true);
+          setAlertText(e.graphQLErrors[0].message);
+        });
       return;
     }
     login({
@@ -62,66 +66,87 @@ const Login = ({ history }) => {
         username,
         password
       }
-    }).then(
-      ({
-        data: {
-          tokenAuth: { token }
+    })
+      .then(
+        ({
+          data: {
+            tokenAuth: { token }
+          }
+        }) => {
+          localStorage.setItem(AUTH_TOKEN, token);
+          getMe();
         }
-      }) => {
-        localStorage.setItem(AUTH_TOKEN, token);
-        getMe();
-      }
-    );
+      )
+      .catch(e => {
+        setShowAlert(true);
+        setAlertText(e.graphQLErrors[0].message);
+      });
   };
 
   return (
-    <Form className="login-form" onSubmit={handleSubmit}>
-      {!isLogin && (
-        <FormGroup controlId="email">
-          <FormLabel>Email</FormLabel>
+    <>
+      <Form className="login-form" onSubmit={handleSubmit}>
+        {!isLogin && (
+          <FormGroup controlId="email">
+            <FormLabel>Email</FormLabel>
+            <FormControl
+              autoFocus
+              className="login-form-control"
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+          </FormGroup>
+        )}
+        <FormGroup controlId="username">
+          <FormLabel>Username</FormLabel>
           <FormControl
+            className="login-form-control"
             autoFocus
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            type="username"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
           />
         </FormGroup>
+        <FormGroup controlId="password">
+          <FormLabel>Password</FormLabel>
+          <FormControl
+            className="login-form-control"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            type="password"
+          />
+        </FormGroup>
+        <Button
+          variant="info"
+          block
+          className="action-btn"
+          size="lg"
+          disabled={!validateForm()}
+          type="submit"
+        >
+          {isLogin ? "Login" : "Create account"}
+        </Button>
+        <Button
+          variant="outline-info"
+          size="sm"
+          onClick={() => setIsLogin(!isLogin)}
+        >
+          {isLogin ? "need to create an account?" : "already have an account?"}
+        </Button>
+      </Form>
+      {showAlert && (
+        <Alert
+          className="alert-login-error"
+          variant="danger"
+          onClose={() => setShowAlert(false)}
+          dismissible
+        >
+          <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+          <p>{alertText}</p>
+        </Alert>
       )}
-      <FormGroup controlId="username">
-        <FormLabel>Username</FormLabel>
-        <FormControl
-          autoFocus
-          type="username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup controlId="password">
-        <FormLabel>Password</FormLabel>
-        <FormControl
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          type="password"
-        />
-      </FormGroup>
-      <Button
-        variant="info"
-        block
-        className="action-btn"
-        size="lg"
-        disabled={!validateForm()}
-        type="submit"
-      >
-        {isLogin ? "Login" : "Create account"}
-      </Button>
-      <Button
-        variant="outline-info"
-        size="sm"
-        onClick={() => setIsLogin(!isLogin)}
-      >
-        {isLogin ? "need to create an account?" : "already have an account?"}
-      </Button>
-    </Form>
+    </>
   );
 };
 export default withRouter(Login);
