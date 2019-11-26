@@ -19,19 +19,22 @@ const PollView = ({ match, history }) => {
     }
   );
 
+  const passPoll = pollPassedByUser && !passAgain;
+  const viewPoll = !pollPassedByUser || passAgain;
+
   if (loading) return <Loading />;
   if (error) return <>Error</>;
-  
+
   return (
     <>
       <BackButton onClick={() => history.push("/polls")} />
-      {pollPassedByUser && !passAgain && (
+      {passPoll && (
         <PassedPoll
           passedPollId={pollPassedByUser.id}
           passRequest={setPassAgain}
         />
       )}
-      {(!pollPassedByUser || passAgain) && (
+      {viewPoll && (
         <PollPassing pollId={match.params.id} passRequest={setPassAgain} />
       )}
     </>

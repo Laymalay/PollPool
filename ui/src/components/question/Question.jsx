@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Col, Row } from "react-bootstrap";
 import "./Question.scss";
 
@@ -9,20 +9,22 @@ export const Question = ({ question, updateQuestions }) => {
   const [questionAnswer, setQuestionAnswer] = useState(answer);
   const formType = Object.keys(question).length === 0 ? "create" : "edit";
 
-  const validateForm = () => {
-    return questionTitle.length > 0 && enableAnswer();
-  };
+  const enableAnswer = questionChoices.every(item => item !== "");
 
-  const enableAnswer = () => {
-    return questionChoices.every(item => item !== "");
-  };
+  const validForm = questionTitle.length > 0 && enableAnswer;
 
   const setChoices = (value, index) => {
     const updatedChoices = questionChoices.map((item, i) =>
       index === i ? value : item
     );
+
     setQuestionChoices(updatedChoices);
   };
+  useEffect(() => {
+    if (enableAnswer && answer === "") {
+      setQuestionAnswer(questionChoices[0]);
+    }
+  }, [enableAnswer]);
 
   return (
     <div className={`question-form-${formType}`}>
@@ -56,18 +58,16 @@ export const Question = ({ question, updateQuestions }) => {
             <option disabled>open</option>
             <option disabled>multiple choices</option>
           </Form.Control>
-          {enableAnswer() && (
+          {enableAnswer && (
             <div>
               <Form.Label>Correct answer:</Form.Label>
               <Form.Control
                 as="select"
                 onChange={e => setQuestionAnswer(e.target.value)}
               >
-                {questionChoices
-                  .filter(choice => choice !== "")
-                  .map((choice, index) => (
-                    <option key={`${choice} ${index}`}>{choice}</option>
-                  ))}
+                {questionChoices.map((choice, index) => (
+                  <option key={`${choice} ${index}`}>{choice}</option>
+                ))}
               </Form.Control>
             </div>
           )}
@@ -76,7 +76,7 @@ export const Question = ({ question, updateQuestions }) => {
               className="add-btn"
               variant="outline-info"
               block
-              disabled={!validateForm()}
+              disabled={!validForm}
               onClick={() => {
                 updateQuestions({
                   questionTitle,

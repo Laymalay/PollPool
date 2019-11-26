@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { useQuery } from "react-apollo-hooks";
-import { getCurrentUserQuery, meQuery } from "../../schema/queries";
-import { withRouter } from "react-router-dom";
-import Loading from "../shared/loading";
-import { Form, Button, Col, Row } from "react-bootstrap";
-import BackButton from "../shared/back-button";
-import { useMutation } from "react-apollo-hooks";
+import { useQuery, useMutation } from "react-apollo-hooks";
+import { withRouter, Link } from "react-router-dom";
+import { Form, Button, Col, Row, Alert } from "react-bootstrap";
+import { zipWith } from "lodash";
+
+import { getCurrentUserQuery } from "../../schema/queries";
 import { updateUserMutation } from "../../schema/mutations";
+import Loading from "../shared/loading";
+import BackButton from "../shared/back-button";
 
 import "./UserProfile.css";
 
@@ -17,11 +18,28 @@ const UserProfile = ({ history }) => {
   );
 
   const [updateUser] = useMutation(updateUserMutation);
+  const {
+    email: currentEmail,
+    firstName: currentFirstName,
+    lastName: currentLastName,
+    about: currentAbout
+  } = currentUser;
 
-  const [email, setEmail] = useState(currentUser.email);
-  const [firstName, setFirstName] = useState(currentUser.firstName);
-  const [lastName, setLastName] = useState(currentUser.lastName);
-  const [about, setAbout] = useState(currentUser.about);
+  const [email, setEmail] = useState(currentEmail);
+  const [firstName, setFirstName] = useState(currentFirstName);
+  const [lastName, setLastName] = useState(currentLastName);
+  const [about, setAbout] = useState(currentAbout);
+
+  const [showUpdateAlert, setShowUpdateAlert] = useState(false);
+
+  const fields = [email, firstName, lastName, about];
+
+  const initValues = [
+    currentEmail,
+    currentFirstName,
+    currentLastName,
+    currentAbout
+  ];
 
   const validateForm = () => {
     return {
@@ -32,9 +50,16 @@ const UserProfile = ({ history }) => {
     };
   };
 
-  const errors = validateForm();
-  const isUpdateDisabled = Object.keys(errors).some(x => errors[x]);
+  const wasChanged = zipWith(fields, initValues, (field, init) => {
+    return field !== init;
+  }).some(el => el);
 
+  console.log(wasChanged);
+
+  const errors = validateForm();
+  const isUpdateDisabled =
+    Object.keys(errors).some(x => errors[x]) || !wasChanged;
+  console.log(errors);
   const handleSubmit = event => {
     event.preventDefault();
     updateUser({
@@ -53,7 +78,7 @@ const UserProfile = ({ history }) => {
         });
       }
     })
-      .then(result => {})
+      .then(result => setShowUpdateAlert(true))
       .catch(e => console.log(e));
   };
 
@@ -129,9 +154,9 @@ const UserProfile = ({ history }) => {
                   </Col>
                 </Form.Group>
                 <div className="hr" />
-                <a className="user-polls-link" href="/userpolls">
+                <Link className="user-polls-link" to="/userpolls">
                   My polls
-                </a>
+                </Link>
               </div>
             </div>
             <Form.Group className="user-about" controlId="userForm.about">
@@ -159,6 +184,16 @@ const UserProfile = ({ history }) => {
           </Button>
         </div>
       </Form>
+      {showUpdateAlert && (
+        <Alert
+          variant={"success"}
+          onClose={() => setShowUpdateAlert(false)}
+          dismissible
+          className="update-success-alert"
+        >
+          User info successfully updated
+        </Alert>
+      )}
     </>
   );
 };

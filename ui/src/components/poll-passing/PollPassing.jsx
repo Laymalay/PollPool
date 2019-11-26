@@ -12,28 +12,25 @@ import "./PollPassing.css";
 const PollPassing = ({ pollId, history, passRequest }) => {
   const [answers, setAnswers] = useState([]);
   const [passPoll] = useMutation(createPassedPollMutation, {
-    refetchQueries: [
-      {
+    update(cache, { data: { createPassedPoll } }) {
+      const { pollPassedByUser } = cache.readQuery({
         query: pollPassedByUserQuery,
         variables: { poll: pollId }
-      }
-    ]
-    // TODO
-    // problem with updating pollPassedByUserQuery when there is no such data in the cache
-    // update(cache, { data: { createPassedPoll } }) {
-    //   const { pollPassedByUser } = cache.readQuery({
-    //     query: pollPassedByUserQuery,
-    //     variables: { poll: pollId }
-    //   });
+      });
+      console.log(pollPassedByUser);
 
-    //   cache.writeQuery({
-    //     query: pollPassedByUserQuery,
-    //     data: {
-    //       pollPassedByUser: { id: createPassedPoll.id }
-    //     },
-    //     variables: { poll: pollId }
-    //   });
-    // }
+      cache.writeQuery({
+        query: pollPassedByUserQuery,
+        data: {
+          pollPassedByUser: {
+            ...pollPassedByUser,
+            __typename: "PassedPollType",
+            id: createPassedPoll.id
+          }
+        },
+        variables: { poll: pollId }
+      });
+    }
   });
 
   const { data: { poll = {} } = {}, loading, error } = useQuery(getPollQuery, {
@@ -59,7 +56,7 @@ const PollPassing = ({ pollId, history, passRequest }) => {
   const { id, title, description, imagePath, questions, creator } = poll;
 
   const validateForm = () => {
-    return answers.every(({choiceId}) => choiceId !== undefined);
+    return answers.every(({ choiceId }) => choiceId !== undefined);
   };
 
   const handleSubmit = e => {
@@ -80,7 +77,6 @@ const PollPassing = ({ pollId, history, passRequest }) => {
         answer.questionId === questionId ? { ...answer, choiceId } : answer
       )
     );
-    
   };
 
   const headerImage = {
