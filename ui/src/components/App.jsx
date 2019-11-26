@@ -13,6 +13,7 @@ import UserPolls from "./user-polls";
 import UserProfile from "./user-profile";
 import { useApolloClient } from "@apollo/react-hooks";
 import PrivateRoute from "./PrivateRoute";
+import PageNotFound from "./page-not-found";
 
 const App = () => {
   const client = useApolloClient();
@@ -39,7 +40,7 @@ const App = () => {
         <PrivateRoute path="/userpolls" component={UserPolls} />
         <PrivateRoute path="/userprofile" component={UserProfile} />
         <PrivateRoute path="/createpoll" component={CreatePoll} />
-        <PrivateRoute render={() => <h2>Page not found</h2>} />
+        <PrivateRoute component={PageNotFound} />
       </Switch>
     </Router>
   );
