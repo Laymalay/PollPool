@@ -14,18 +14,13 @@ export const Question = ({ question, updateQuestions }) => {
   };
 
   const enableAnswer = () => {
-    return questionChoices.every(item => {
-      return item !== "";
-    });
+    return questionChoices.every(item => item !== "");
   };
 
   const setChoices = (value, index) => {
-    const updatedChoices = questionChoices.map((item, i) => {
-      if (index === i) {
-        return value;
-      }
-      return item;
-    });
+    const updatedChoices = questionChoices.map((item, i) =>
+      index === i ? value : item
+    );
     setQuestionChoices(updatedChoices);
   };
 

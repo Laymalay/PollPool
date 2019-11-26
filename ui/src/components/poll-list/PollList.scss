@@ -63,11 +63,13 @@
 .cards {
   margin: 10px 60px 10px 20px;
 }
+
 .card-columns {
   -webkit-column-count: 3;
   -moz-column-count: 3;
   column-count: 4;
 }
+
 .poll-main {
   display: flex;
   flex-direction: row;

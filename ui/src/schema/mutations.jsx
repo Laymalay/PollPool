@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const updatePollMutation = gql`
   mutation updatePoll($title: String!, $id: Int!) {
-    updatePoll(id: $id, logo: $title) {
+    updatePoll(id: $id, title: $title) {
       id
       title
     }
@@ -24,7 +24,7 @@ export const createPollMutation = gql`
       description
       imagePath
       id
-      creator{
+      creator {
         username
       }
     }
@@ -44,8 +44,8 @@ export const createChoiceMutation = gql`
     }
   }
 `;
-export const SignupMutation = gql`
-  mutation SignupMutation(
+export const signupMutation = gql`
+  mutation signupMutation(
     $email: String!
     $password: String!
     $username: String!
@@ -57,15 +57,15 @@ export const SignupMutation = gql`
   }
 `;
 
-export const LoginMutation = gql`
-  mutation LoginMutation($username: String!, $password: String!) {
+export const loginMutation = gql`
+  mutation loginMutation($username: String!, $password: String!) {
     tokenAuth(username: $username, password: $password) {
       token
     }
   }
 `;
 
-export const CreatePassedPollMutation = gql`
+export const createPassedPollMutation = gql`
   mutation createPassedPoll(
     $pollId: Int!
     $answeredQuestions: [AnsweredQuestionInputType]
@@ -80,6 +80,30 @@ export const CreatePassedPollMutation = gql`
         username
       }
       score
+    }
+  }
+`;
+
+export const updateUserMutation = gql`
+  mutation updateUser(
+    $id: ID!
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $about: String!
+  ) {
+    updateUser(
+      id: $id
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      about: $about
+    ) {
+      id
+      firstName
+      lastName
+      email
+      about
     }
   }
 `;

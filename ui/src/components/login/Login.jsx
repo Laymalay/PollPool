@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import "./Login.css";
 import { useMutation } from "react-apollo-hooks";
-import { LoginMutation, SignupMutation } from "../../schema/mutations";
+import { loginMutation, signupMutation } from "../../schema/mutations";
 import { meQuery } from "../../schema/queries";
 import { withRouter } from "react-router";
 import { useLazyQuery } from "@apollo/react-hooks";
@@ -26,8 +26,8 @@ const Login = ({ history }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [login] = useMutation(LoginMutation);
-  const [signUp] = useMutation(SignupMutation);
+  const [login] = useMutation(loginMutation);
+  const [signUp] = useMutation(signupMutation);
   const [getMe, { loadingUser, data }] = useLazyQuery(meQuery, {
     fetchPolicy: "network-only"
   });

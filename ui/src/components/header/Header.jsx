@@ -60,7 +60,7 @@ export const Header = props => {
               href="http://localhost:8000/admin"
               target="_blank"
             >
-              settings
+              <span className="oi oi-wrench"></span>
             </a>
           )}
         </Navbar.Collapse>

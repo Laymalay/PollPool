@@ -12,13 +12,10 @@ import Question from "../question";
 import { withRouter } from "react-router";
 import "./CreatePoll.css";
 import BackButton from "../shared/back-button";
-import { useApolloClient } from "@apollo/react-hooks";
 
 export const CreatePoll = props => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
-  const client = useApolloClient();
 
   const {
     data: {

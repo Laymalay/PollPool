@@ -30,6 +30,7 @@ const PollList = props => {
                   Pass
                 </Button>
               </div>
+              
               <Card.Text className="card-text">{poll.description}</Card.Text>
             </Card.Body>
           </Card>

@@ -73,7 +73,7 @@ export const getPassedPollQuery = gql`
 `;
 
 export const meQuery = gql`
-  {
+  query me {
     me {
       id
       username
@@ -110,6 +110,7 @@ export const getCurrentUserQuery = gql`
       lastName
       about
       isStaff
+      __typename
     }
   }
 `;

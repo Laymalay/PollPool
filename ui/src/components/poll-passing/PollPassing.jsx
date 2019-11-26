@@ -4,14 +4,14 @@ import { useQuery, useMutation } from "react-apollo";
 import Loading from "../shared/loading";
 import PollHeader from "../shared/poll-header";
 import { Form, Row, Col, Button } from "react-bootstrap";
-import { CreatePassedPollMutation } from "../../schema/mutations";
+import { createPassedPollMutation } from "../../schema/mutations";
 import { withRouter } from "react-router";
 
 import "./PollPassing.css";
 
 const PollPassing = ({ pollId, history, passRequest }) => {
   const [answers, setAnswers] = useState([]);
-  const [passPoll] = useMutation(CreatePassedPollMutation, {
+  const [passPoll] = useMutation(createPassedPollMutation, {
     refetchQueries: [
       {
         query: pollPassedByUserQuery,

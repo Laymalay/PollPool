@@ -36,10 +36,10 @@ class UpdateUser(graphene.Mutation):
     first_name = graphene.String(required=True)
     last_name = graphene.String(required=True)
     about = graphene.String(required=True)
-    id = graphene.Int(required=True)
+    id = graphene.ID()
 
     class Arguments:
-        id = graphene.Int(required=True)
+        id = graphene.ID()
         email = graphene.String(required=True)
         first_name = graphene.String(required=True)
         last_name = graphene.String(required=True)
