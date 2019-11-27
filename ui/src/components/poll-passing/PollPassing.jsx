@@ -10,14 +10,14 @@ import { createPassedPollMutation } from "../../schema/mutations";
 
 import "./PollPassing.css";
 
-const PollPassing = ({ pollId, passRequest }) => {
+const PollPassing = ({ poll, passRequest }) => {
   const [answers, setAnswers] = useState([]);
 
   const [passPoll] = useMutation(createPassedPollMutation, {
     update(cache, { data: { createPassedPoll } }) {
       const { pollPassedByUser } = cache.readQuery({
         query: pollPassedByUserQuery,
-        variables: { poll: pollId }
+        variables: { poll: poll.id }
       });
       console.log(pollPassedByUser);
 
@@ -30,14 +30,8 @@ const PollPassing = ({ pollId, passRequest }) => {
             id: createPassedPoll.id
           }
         },
-        variables: { poll: pollId }
+        variables: { poll: poll.id }
       });
-    }
-  });
-
-  const { data: { poll = {} } = {}, loading, error } = useQuery(getPollQuery, {
-    variables: {
-      id: pollId
     }
   });
 
@@ -52,8 +46,8 @@ const PollPassing = ({ pollId, passRequest }) => {
     }
   }, [poll]);
 
-  if (loading) return <Loading />;
-  if (error) return <>Error</>;
+  // if (loading) return <Loading />;
+  // if (error) return <>Error</>;
 
   const { id, title, description, imagePath, questions, creator } = poll;
 

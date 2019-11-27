@@ -2,14 +2,30 @@ import React, { useState } from "react";
 import { useQuery } from "react-apollo";
 import { withRouter } from "react-router";
 
-import { pollPassedByUserQuery } from "../../schema/queries";
+import { pollPassedByUserQuery, getPollQuery } from "../../schema/queries";
 import Loading from "../shared/loading";
 import PassedPoll from "../passed-poll";
 import PollPassing from "../poll-passing";
 import BackButton from "../shared/back-button";
+import { getCurrentUserQuery } from "../../schema/queries";
+import PollStat from "../poll-stat";
 
 const PollView = ({ match, history }) => {
   const [passAgain, setPassAgain] = useState(false);
+
+  const {
+    data: {
+      currentUser: { username }
+    }
+  } = useQuery(getCurrentUserQuery);
+
+  const { data: { poll = {} } = {} } = useQuery(getPollQuery, {
+    variables: {
+      id: match.params.id
+    }
+  });
+
+  const { creator } = poll;
 
   const { data: { pollPassedByUser = {} } = {}, loading, error } = useQuery(
     pollPassedByUserQuery,
@@ -20,8 +36,22 @@ const PollView = ({ match, history }) => {
     }
   );
 
-  const passPoll = pollPassedByUser && !passAgain;
-  const viewPoll = !pollPassedByUser || passAgain;
+  const loadPollView = () => {
+    if (creator && creator.username === username) {
+      return <PollStat poll={poll} />;
+    }
+
+    if (pollPassedByUser && !passAgain) {
+      return (
+        <PassedPoll
+          passedPollId={pollPassedByUser.id}
+          passRequest={setPassAgain}
+        />
+      );
+    }
+
+    return <PollPassing poll={poll} passRequest={setPassAgain} />;
+  };
 
   if (loading) return <Loading />;
   if (error) return <>Error</>;
@@ -29,15 +59,7 @@ const PollView = ({ match, history }) => {
   return (
     <>
       <BackButton onClick={() => history.push("/polls")} />
-      {passPoll && (
-        <PassedPoll
-          passedPollId={pollPassedByUser.id}
-          passRequest={setPassAgain}
-        />
-      )}
-      {viewPoll && (
-        <PollPassing pollId={match.params.id} passRequest={setPassAgain} />
-      )}
+      {loadPollView()}
     </>
   );
 };
