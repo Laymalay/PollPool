@@ -29,7 +29,11 @@ const UserPolls = props => {
 
   return (
     <>
-      {polls.length && <PollList polls={polls} />}
+      {polls.length === 0 ? (
+        <p className="no-polls-message">You don't have any polls</p>
+      ) : (
+        <PollList polls={polls} />
+      )}
       <AddButton onClick={addPoll} />
     </>
   );

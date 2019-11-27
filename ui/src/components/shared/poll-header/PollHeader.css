@@ -17,6 +17,7 @@
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-size: 25px;
+    color: black;
     font-family: 'Staatliches', cursive;
 }
 
@@ -26,6 +27,7 @@
 }
 
 .poll-creator {
+    color: black;
     padding-left: 5px;
     font-size: 20px;
 }
