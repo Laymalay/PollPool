@@ -1,33 +1,32 @@
 import React, { useState } from "react";
-import { useMutation } from "react-apollo-hooks";
-import { useQuery } from "react-apollo-hooks";
+import { useMutation, useQuery } from "react-apollo-hooks";
+import { withRouter } from "react-router";
+import { Form, Button, Col } from "react-bootstrap";
+
 import {
   createPollMutation,
   createChoiceMutation,
   createQuestionMutation
 } from "../../schema/mutations";
 import { getAllPollsQuery, getCurrentUserQuery } from "../../schema/queries";
-import { Form, Button, Col } from "react-bootstrap";
 import Question from "../question";
-import { withRouter } from "react-router";
 import "./CreatePoll.css";
 import BackButton from "../shared/back-button";
 
 export const CreatePoll = props => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [questions, setQuestions] = useState([{}]);
+
+  const [imagePath, setImagePath] = useState(
+    "https://i.pinimg.com/originals/21/61/8e/21618e399ac27c80aac237c8e2e5021d.jpg"
+  );
 
   const {
     data: {
       currentUser: { username }
     }
   } = useQuery(getCurrentUserQuery);
-
-  const [imagePath, setImagePath] = useState(
-    "https://i.pinimg.com/originals/21/61/8e/21618e399ac27c80aac237c8e2e5021d.jpg"
-  );
-
-  const [questions, setQuestions] = useState([{}]);
 
   const [createPoll] = useMutation(createPollMutation, {
     update(cache, { data: { createPoll } }) {
@@ -38,6 +37,7 @@ export const CreatePoll = props => {
       });
     }
   });
+
   const [createQuestion] = useMutation(createQuestionMutation);
   const [createChoice] = useMutation(createChoiceMutation);
 
@@ -56,9 +56,7 @@ export const CreatePoll = props => {
     justifyContent: "space-between"
   };
 
-  const validateForm = () => {
-    return title.length > 0 && description.length > 0;
-  };
+  const isFormValid = title.length > 0 && description.length > 0;
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -159,7 +157,7 @@ export const CreatePoll = props => {
         variant="outline-info"
         block
         className="create-poll-btn"
-        disabled={!validateForm()}
+        disabled={!isFormValid}
         type="submit"
       >
         Create

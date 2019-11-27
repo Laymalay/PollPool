@@ -1,14 +1,16 @@
 import React from "react";
-import { getPassedPollQuery } from "../../schema/queries";
-import { useQuery } from "react-apollo";
-import Loading from "../shared/loading";
-import PollHeader from "../shared/poll-header";
 import { Button, Row, Form, Col } from "react-bootstrap";
 import { withRouter } from "react-router";
+import { useQuery } from "react-apollo";
+
+import { getPassedPollQuery } from "../../schema/queries";
+import Loading from "../shared/loading";
+import PollHeader from "../shared/poll-header";
 
 import "./PassedPoll.scss";
+
 const PassedPoll = ({ passedPollId, history, passRequest }) => {
-  console.log(passedPollId)
+  console.log(passedPollId);
   const { data: { passedPoll = {} } = {}, loading, error } = useQuery(
     getPassedPollQuery,
     {
@@ -24,21 +26,12 @@ const PassedPoll = ({ passedPollId, history, passRequest }) => {
   const { answers, score } = passedPoll;
   const { title, description, imagePath, creator } = passedPoll.poll;
 
-  const headerImage = {
-    backgroundImage: `url(${imagePath})`,
-    borderRadius: 5,
-    height: 250,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center center"
-  };
-
   return (
     passedPoll && (
       <>
         <div className="main-content">
           <PollHeader
-            headerImage={headerImage}
+            imagePath={imagePath}
             title={title}
             username={creator.username}
             description={description}

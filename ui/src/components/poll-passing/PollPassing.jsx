@@ -1,16 +1,18 @@
 import React, { useState, useMemo } from "react";
-import { getPollQuery, pollPassedByUserQuery } from "../../schema/queries";
 import { useQuery, useMutation } from "react-apollo";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import { withRouter } from "react-router";
+
+import { getPollQuery, pollPassedByUserQuery } from "../../schema/queries";
 import Loading from "../shared/loading";
 import PollHeader from "../shared/poll-header";
-import { Form, Row, Col, Button } from "react-bootstrap";
 import { createPassedPollMutation } from "../../schema/mutations";
-import { withRouter } from "react-router";
 
 import "./PollPassing.css";
 
-const PollPassing = ({ pollId, history, passRequest }) => {
+const PollPassing = ({ pollId, passRequest }) => {
   const [answers, setAnswers] = useState([]);
+
   const [passPoll] = useMutation(createPassedPollMutation, {
     update(cache, { data: { createPassedPoll } }) {
       const { pollPassedByUser } = cache.readQuery({
@@ -55,18 +57,17 @@ const PollPassing = ({ pollId, history, passRequest }) => {
 
   const { id, title, description, imagePath, questions, creator } = poll;
 
-  const validateForm = () => {
-    return answers.every(({ choiceId }) => choiceId !== undefined);
-  };
+  const ifFormValid = answers.every(({ choiceId }) => choiceId !== undefined);
 
   const handleSubmit = e => {
     e.preventDefault();
+
     passPoll({
       variables: {
         pollId: id,
         answeredQuestions: answers
       }
-    }).then(data => {
+    }).then(_ => {
       passRequest(false);
     });
   };
@@ -79,21 +80,12 @@ const PollPassing = ({ pollId, history, passRequest }) => {
     );
   };
 
-  const headerImage = {
-    backgroundImage: `url(${imagePath})`,
-    borderRadius: 5,
-    height: 250,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center center"
-  };
-
   return (
     poll && (
       <>
         <div className="main-content">
           <PollHeader
-            headerImage={headerImage}
+            imagePath={imagePath}
             title={title}
             username={creator.username}
             description={description}
@@ -123,7 +115,7 @@ const PollPassing = ({ pollId, history, passRequest }) => {
               size="lg"
               variant="outline-info"
               className="send-btn"
-              disabled={!validateForm()}
+              disabled={!ifFormValid}
               type="submit"
             >
               Send

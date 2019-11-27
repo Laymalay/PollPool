@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AUTH_TOKEN } from "../../constants";
 import {
   Button,
   Form,
@@ -8,26 +7,31 @@ import {
   FormLabel,
   Alert
 } from "react-bootstrap";
-import "./Login.css";
+import { withRouter } from "react-router";
 import { useMutation } from "react-apollo-hooks";
+import { useLazyQuery, useApolloClient } from "@apollo/react-hooks";
+
+import { AUTH_TOKEN } from "../../constants";
 import { loginMutation, signupMutation } from "../../schema/mutations";
 import { meQuery } from "../../schema/queries";
-import { withRouter } from "react-router";
-import { useLazyQuery } from "@apollo/react-hooks";
 import Loading from "../shared/loading";
-import { useApolloClient } from "@apollo/react-hooks";
 
+import "./Login.css";
 const Login = ({ history }) => {
   const client = useApolloClient();
+
   const [showAlert, setShowAlert] = useState(false);
   const [alertText, setAlertText] = useState("");
+
   const [isLogin, setIsLogin] = useState(true);
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [login] = useMutation(loginMutation);
   const [signUp] = useMutation(signupMutation);
+  
   const [getMe, { loadingUser, data }] = useLazyQuery(meQuery, {
     fetchPolicy: "network-only"
   });

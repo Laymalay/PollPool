@@ -1,27 +1,29 @@
 import React from "react";
-import AllPolls from "./all-polls";
-import Header from "./header";
-import Login from "./login";
 import { useQuery } from "react-apollo-hooks";
-import Loading from "./shared/loading";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useApolloClient } from "@apollo/react-hooks";
 
 import { meQuery, isUserLoggedInQuery } from "../schema/queries";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreatePoll from "./create-poll";
 import PollView from "./poll-view";
 import UserPolls from "./user-polls";
+import AllPolls from "./all-polls";
+import Header from "./header";
+import Login from "./login";
+import Loading from "./shared/loading";
 import UserProfile from "./user-profile";
-import { useApolloClient } from "@apollo/react-hooks";
 import PrivateRoute from "./PrivateRoute";
 import PageNotFound from "./page-not-found";
 
 const App = () => {
   const client = useApolloClient();
+
+  const { data: { isLoggedIn } = false } = useQuery(isUserLoggedInQuery);
+
+  // update current user in the cache after reloading page
   const { data: { me } = {}, loading } = useQuery(meQuery, {
     fetchPolicy: "network-only"
   });
-
-  const { data: { isLoggedIn } = false } = useQuery(isUserLoggedInQuery);
 
   if (loading) return <Loading />;
 
@@ -32,7 +34,9 @@ const App = () => {
   return (
     <Router>
       {isLoggedIn && <Header />}
-      {!isLoggedIn && <Route path="/login" component={Login} />}
+
+      <Route path="/login" component={Login} />
+
       <Switch>
         <PrivateRoute exact path="/" component={AllPolls} />
         <PrivateRoute path="/polls" component={AllPolls} />

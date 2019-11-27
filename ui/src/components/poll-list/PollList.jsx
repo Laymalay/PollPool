@@ -1,14 +1,13 @@
 import React from "react";
 import { Card, Button, CardColumns } from "react-bootstrap";
-import "./PollList.scss";
 import { withRouter } from "react-router";
 
-const PollList = props => {
-  const openPollView = pollId => {
-    props.history.push(`pollView/${pollId}`);
-  };
+import "./PollList.scss";
 
+const PollList = props => {
+  const openPollView = pollId => props.history.push(`pollView/${pollId}`);
   const polls = props.polls;
+
   return (
     <div>
       <CardColumns className="cards">
@@ -30,7 +29,7 @@ const PollList = props => {
                   Pass
                 </Button>
               </div>
-              
+
               <Card.Text className="card-text">{poll.description}</Card.Text>
             </Card.Body>
           </Card>

@@ -14,7 +14,7 @@ import "./UserProfile.css";
 const UserProfile = ({ history }) => {
   const { data: { currentUser } = {}, loading, error } = useQuery(
     getCurrentUserQuery,
-    { pollInterval: 500 } // get correct user after cache updated and logout/login
+    { pollInterval: 500 } // get correct user after cache updated and logout/login actions
   );
 
   const [updateUser] = useMutation(updateUserMutation);
@@ -41,6 +41,7 @@ const UserProfile = ({ history }) => {
     currentAbout
   ];
 
+  // TODO add custom validation to fields
   const validateForm = () => {
     return {
       email: email.length === 0,
@@ -50,16 +51,15 @@ const UserProfile = ({ history }) => {
     };
   };
 
+  const errors = validateForm();
+
   const wasChanged = zipWith(fields, initValues, (field, init) => {
     return field !== init;
   }).some(el => el);
 
-  console.log(wasChanged);
-
-  const errors = validateForm();
   const isUpdateDisabled =
     Object.keys(errors).some(x => errors[x]) || !wasChanged;
-  console.log(errors);
+
   const handleSubmit = event => {
     event.preventDefault();
     updateUser({
@@ -78,7 +78,7 @@ const UserProfile = ({ history }) => {
         });
       }
     })
-      .then(result => setShowUpdateAlert(true))
+      .then(_ => setShowUpdateAlert(true))
       .catch(e => console.log(e));
   };
 
@@ -88,6 +88,7 @@ const UserProfile = ({ history }) => {
   return (
     <>
       <BackButton onClick={() => history.push("/polls")} />
+
       <Form onSubmit={handleSubmit}>
         <div className="user-content">
           <div className="column-flex">
@@ -98,6 +99,7 @@ const UserProfile = ({ history }) => {
                   className="user-pic"
                   src="https://img2.freepng.ru/20180504/phe/kisspng-professional-computer-icons-avatar-job-5aec571ec854c8.3222584415254382388206.jpg"
                 />
+
                 <Button
                   className="change-user-photo-btn"
                   variant="outline-info"
@@ -106,6 +108,7 @@ const UserProfile = ({ history }) => {
                   Change
                 </Button>
               </div>
+
               <div className="main-user-info">
                 <div className="username">{currentUser.username}</div>
                 <Form.Group as={Row} controlId="userForm.email">
@@ -123,6 +126,7 @@ const UserProfile = ({ history }) => {
                     />
                   </Col>
                 </Form.Group>
+
                 <Form.Group as={Row} controlId="userForm.firstName">
                   <Form.Label column sm="3">
                     FirstName
@@ -138,6 +142,7 @@ const UserProfile = ({ history }) => {
                     />
                   </Col>
                 </Form.Group>
+
                 <Form.Group as={Row} controlId="userForm.lastName">
                   <Form.Label column sm="3">
                     LastName
@@ -153,12 +158,15 @@ const UserProfile = ({ history }) => {
                     />
                   </Col>
                 </Form.Group>
+
                 <div className="hr" />
+
                 <Link className="user-polls-link" to="/userpolls">
                   My polls
                 </Link>
               </div>
             </div>
+
             <Form.Group className="user-about" controlId="userForm.about">
               <Form.Label>About</Form.Label>
               <Form.Control
@@ -173,6 +181,7 @@ const UserProfile = ({ history }) => {
               />
             </Form.Group>
           </div>
+
           <Button
             disabled={isUpdateDisabled}
             className="update-user-btn"
@@ -184,6 +193,7 @@ const UserProfile = ({ history }) => {
           </Button>
         </div>
       </Form>
+
       {showUpdateAlert && (
         <Alert
           variant={"success"}

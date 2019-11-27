@@ -2,13 +2,13 @@ import React from "react";
 import { useQuery } from "react-apollo-hooks";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
+import { useApolloClient } from "@apollo/react-hooks";
 
 import { getCurrentUserQuery } from "../../schema/queries";
 import { AUTH_TOKEN } from "../../constants";
 import { Navbar, Nav } from "react-bootstrap";
-import "./Header.css";
 
-import { useApolloClient } from "@apollo/react-hooks";
+import "./Header.css";
 
 export const Header = props => {
   const client = useApolloClient();
@@ -69,11 +69,6 @@ export const Header = props => {
       <Link onClick={logout} className="nav-link" to="/login">
         Logout
       </Link>
-      {/*     
-        <Link className="nav-link" to="/login">
-          Login
-        </Link>
-      )} */}
     </Navbar>
   );
 };

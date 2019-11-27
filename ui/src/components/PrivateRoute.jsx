@@ -1,10 +1,11 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useQuery } from "react-apollo-hooks";
+
 import { isUserLoggedInQuery } from "../schema/queries";
 
 const PrivateRoute = ({ component, ...rest }) => {
-  const { data: { isLoggedIn } = {} } = useQuery(isUserLoggedInQuery);
+  const { data: { isLoggedIn } = false } = useQuery(isUserLoggedInQuery);
 
   return (
     <>
