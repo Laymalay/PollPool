@@ -13,7 +13,6 @@ isort==4.3.21
 lazy-object-proxy==1.4.2
 mccabe==0.6.1
 pkg-resources==0.0.0
--e git+git@github.com:Laymalay/PollPool.git@fe1d50c4929dba713b2da11e10a27ac62161d3f0#egg=polls&subdirectory=polls_api
 promise==2.2.1
 psycopg2==2.8.3
 pycodestyle==2.5.0

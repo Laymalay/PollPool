@@ -19,13 +19,12 @@ const PollView = ({ match, history }) => {
     }
   } = useQuery(getCurrentUserQuery);
 
-  const { data: { poll = {} } = {} } = useQuery(getPollQuery, {
+  const { data: { poll } = {} } = useQuery(getPollQuery, {
     variables: {
       id: match.params.id
     }
   });
 
-  const { creator } = poll;
 
   const { data: { pollPassedByUser = {} } = {}, loading, error } = useQuery(
     pollPassedByUserQuery,
@@ -37,7 +36,7 @@ const PollView = ({ match, history }) => {
   );
 
   const loadPollView = () => {
-    if (creator && creator.username === username) {
+    if (poll.creator.username === username) {
       return <PollStat poll={poll} />;
     }
 
@@ -49,7 +48,6 @@ const PollView = ({ match, history }) => {
         />
       );
     }
-
     return <PollPassing poll={poll} passRequest={setPassAgain} />;
   };
 
@@ -59,7 +57,7 @@ const PollView = ({ match, history }) => {
   return (
     <>
       <BackButton onClick={() => history.push("/polls")} />
-      {loadPollView()}
+      {poll && loadPollView()}
     </>
   );
 };

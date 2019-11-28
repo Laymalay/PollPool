@@ -45,9 +45,9 @@ const UserProfile = ({ history }) => {
   const validateForm = () => {
     return {
       email: email.length === 0,
-      firstName: firstName.length === 0,
-      lastName: lastName.length === 0,
-      about: about.length === 0
+      firstName: !firstName || firstName.length === 0,
+      lastName: !lastName || lastName.length === 0,
+      about: !about
     };
   };
 

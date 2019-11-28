@@ -75,49 +75,47 @@ const PollPassing = ({ poll, passRequest }) => {
   };
 
   return (
-    poll && (
-      <>
-        <div className="main-content">
-          <PollHeader
-            imagePath={imagePath}
-            title={title}
-            username={creator.username}
-            description={description}
-          />
-          <Form onSubmit={handleSubmit}>
-            {questions.map(question => (
-              <Form.Group key={question.id} className="question" as={Row}>
-                <Form.Label as="legend" column sm={5}>
-                  {question.title}
-                </Form.Label>
-                <Col sm={3}>
-                  {question.choices.map(choice => (
-                    <Form.Check
-                      custom
-                      type="radio"
-                      key={`${question.title}${choice.id}`}
-                      name={question.title}
-                      id={choice.id}
-                      onChange={_ => updateAnswers(question.id, choice.id)}
-                      label={choice.title}
-                    />
-                  ))}
-                </Col>
-              </Form.Group>
-            ))}
-            <Button
-              size="lg"
-              variant="outline-info"
-              className="send-btn"
-              disabled={!ifFormValid}
-              type="submit"
-            >
-              Send
+    <>
+      <div className="main-content">
+        <PollHeader
+          imagePath={imagePath}
+          title={title}
+          username={creator.username}
+          description={description}
+        />
+        <Form onSubmit={handleSubmit}>
+          {questions.map(question => (
+            <Form.Group key={question.id} className="question" as={Row}>
+              <Form.Label as="legend" column sm={5}>
+                {question.title}
+              </Form.Label>
+              <Col sm={3}>
+                {question.choices.map(choice => (
+                  <Form.Check
+                    custom
+                    type="radio"
+                    key={`${question.title}${choice.id}`}
+                    name={question.title}
+                    id={choice.id}
+                    onChange={_ => updateAnswers(question.id, choice.id)}
+                    label={choice.title}
+                  />
+                ))}
+              </Col>
+            </Form.Group>
+          ))}
+          <Button
+            size="lg"
+            variant="outline-info"
+            className="send-btn"
+            disabled={!ifFormValid}
+            type="submit"
+          >
+            Send
             </Button>
-          </Form>
-        </div>
-      </>
-    )
+        </Form>
+      </div>
+    </>
   );
 };
 

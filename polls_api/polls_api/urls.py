@@ -21,6 +21,6 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('graphql', GraphQLView.as_view(graphiql=True, schema=schema)),
     path('csrf/', views.csrf),
+    path('graphql', GraphQLView.as_view(graphiql=True, schema=schema)),
 ]
