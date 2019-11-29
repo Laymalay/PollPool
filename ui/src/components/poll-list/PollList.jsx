@@ -1,12 +1,21 @@
 import React from "react";
+import { useQuery } from "react-apollo-hooks";
 import { Card, Button, CardColumns } from "react-bootstrap";
 import { withRouter } from "react-router";
+
+import { getCurrentUserQuery } from "../../schema/queries";
 
 import "./PollList.scss";
 
 const PollList = props => {
   const openPollView = pollId => props.history.push(`pollView/${pollId}`);
   const polls = props.polls;
+
+  const {
+    data: {
+      currentUser: { username }
+    }
+  } = useQuery(getCurrentUserQuery);
 
   return (
     <div>
@@ -26,7 +35,7 @@ const PollList = props => {
                   variant="info"
                   size="lg"
                 >
-                  Pass
+                  {username === poll.creator.username ? "View" : "Pass"}
                 </Button>
               </div>
 
