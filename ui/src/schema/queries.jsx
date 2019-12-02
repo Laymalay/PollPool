@@ -114,3 +114,31 @@ export const getCurrentUserQuery = gql`
     }
   }
 `;
+
+export const getQuestionQuery = gql`
+  query question($id: Int!) {
+    question(id: $id) {
+      id
+      title
+      answer
+      choices {
+        id
+        title
+      }
+      answeredQuestions {
+        id
+        correct
+        choice {
+          id
+          title
+        }
+        passedPoll {
+          user {
+            id
+            username
+          }
+        }
+      }
+    }
+  }
+`;

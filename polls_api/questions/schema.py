@@ -1,6 +1,7 @@
 import graphene
 
 from graphene_django.types import DjangoObjectType
+from graphql_jwt.decorators import login_required
 
 from questions.models import Question, Choice, AnsweredQuestion
 from polls.models import Poll
@@ -10,9 +11,11 @@ class QuestionType(DjangoObjectType):
     class Meta:
         model = Question
 
+
 class AnsweredQuestionType(DjangoObjectType):
     class Meta:
         model = AnsweredQuestion
+
 
 class ChoiceType(DjangoObjectType):
     class Meta:
@@ -22,12 +25,25 @@ class ChoiceType(DjangoObjectType):
 class Query(object):
     all_questions = graphene.List(QuestionType)
     all_choices = graphene.List(ChoiceType)
+    
+    question = graphene.Field(QuestionType,
+                              id=graphene.Int())
 
+    @login_required
     def resolve_all_questions(self, info, **kwargs):
         return Question.objects.all()
 
+    @login_required
     def resolve_all_choices(self, info, **kwargs):
         return Choice.objects.all()
+
+    @login_required
+    def resolve_question(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Question.objects.get(pk=id)
+        return None
 
 
 class CreateQuestion(graphene.Mutation):

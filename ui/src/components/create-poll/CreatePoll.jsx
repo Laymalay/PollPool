@@ -108,7 +108,7 @@ export const CreatePoll = props => {
       <BackButton onClick={() => props.history.push("/polls")} />
       <div style={headerStyle}>
         <Form.Row className="first-line">
-          <Form.Group as={Col} md="3" controlId="formTitle">
+          <Form.Group as={Col} md="3">
             <Form.Control
               type="text"
               placeholder="Title"
@@ -116,7 +116,7 @@ export const CreatePoll = props => {
             />
           </Form.Group>
 
-          <Form.Group as={Col} md="5" controlId="formImageUrl">
+          <Form.Group as={Col} md="5">
             <Form.Control
               type="text"
               placeholder="Image url (optional)"
@@ -127,11 +127,11 @@ export const CreatePoll = props => {
           <Form.Label column md="1" className="creator">
             Creator:
           </Form.Label>
-          <Form.Group as={Col} md="2" controlId="formCreator">
+          <Form.Group as={Col} md="2">
             <Form.Control type="text" disabled value={username} />
           </Form.Group>
         </Form.Row>
-        <Form.Group controlId="formDescription">
+        <Form.Group>
           <Form.Control
             as="textarea"
             size="sm"
@@ -141,7 +141,7 @@ export const CreatePoll = props => {
           />
         </Form.Group>
       </div>
-      <Form.Group controlId="formImageUrl">
+      <Form.Group>
         <Form.Label className="poll-questions-title">Questions:</Form.Label>
         {questions.map((question, index) => (
           <Question

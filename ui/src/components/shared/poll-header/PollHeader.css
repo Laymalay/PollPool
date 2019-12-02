@@ -7,9 +7,16 @@
 }
 
 .poll-shadow {
-    padding: 10px;
+    /* padding: 10px;
     background-color: rgba(255, 255, 255, 0.4);
-    height: 100px;
+    height: 100px; */
+    margin-top: 30px;
+    color: #17A3B8;
+    background-color: white;
+    width: fit-content;
+    padding: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 .poll-title {
@@ -17,7 +24,6 @@
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-size: 25px;
-    color: black;
     font-family: 'Staatliches', cursive;
 }
 
@@ -27,7 +33,7 @@
 }
 
 .poll-creator {
-    color: black;
+    /* color: black; */
     padding-left: 5px;
     font-size: 20px;
 }
