@@ -49,7 +49,7 @@ export const CreatePoll = props => {
     backgroundPosition: "center center",
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    height: 250,
+    height: 400,
     color: "black",
     display: "flex",
     flexDirection: "column",
@@ -134,7 +134,7 @@ export const CreatePoll = props => {
         <Form.Group>
           <Form.Control
             as="textarea"
-            size="sm"
+            size="lg"
             className="description"
             placeholder="Super challenging poll description"
             onChange={e => setDescription(e.target.value)}
@@ -156,7 +156,7 @@ export const CreatePoll = props => {
         size="lg"
         variant="outline-info"
         block
-        className="create-poll-btn"
+        className="create-poll-btn bottom-button"
         disabled={!isFormValid}
         type="submit"
       >

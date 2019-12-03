@@ -7,7 +7,7 @@ const PollHeader = ({ imagePath, title, username, description }) => {
   const headerImage = {
     backgroundImage: `url(${imagePath})`,
     borderRadius: 5,
-    height: 250,
+    height: 400,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center center"

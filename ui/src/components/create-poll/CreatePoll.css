@@ -1,11 +1,8 @@
 .create-form {
   margin: 0 auto;
-  max-width: 720px;
+  max-width: 900px;
 }
 
-.description {
-  max-height: 100px;
-}
 
 .creator {
   line-height: 1.6em;
@@ -26,5 +23,4 @@
 .create-poll-btn {
   float: right;
   width: auto;
-  margin-bottom: 20px;
 }

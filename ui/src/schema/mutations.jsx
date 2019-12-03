@@ -1,10 +1,30 @@
 import gql from "graphql-tag";
 
 export const updatePollMutation = gql`
-  mutation updatePoll($title: String!, $id: Int!) {
-    updatePoll(id: $id, title: $title) {
+  mutation updatePoll(
+    $title: String
+    $description: String
+    $imagePath: String
+    $id: String!
+  ) {
+    updatePoll(
+      id: $id
+      title: $title
+      description: $description
+      imagePath: $imagePath
+    ) {
       id
       title
+      description
+      imagePath
+    }
+  }
+`;
+
+export const deletePollMutation = gql`
+  mutation deletePoll($id: ID!) {
+    deletePoll(id: $id) {
+      id
     }
   }
 `;

@@ -42,6 +42,28 @@ a:hover {
 }
 
 .main-content {
-    width: 800px;
+    width: 900px;
+    margin-top: 40px;
     margin: 0 auto;
+}
+
+.row-flex {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 50px;
+    justify-content: space-between;
+
+}
+
+.column-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.description {
+    max-height: 200px;
+}
+.bottom-button{
+  margin-bottom: 20px;    
 }

@@ -32,7 +32,12 @@ const QuestionStat = ({ question: { id } }) => {
       (stat[id] = {
         value: 0,
         title: title,
-        color: randomColor({ luminosity: "light", hue: "random", alpha: 0.5 })
+        color: randomColor({
+          luminosity: "bright",
+          hue: "random",
+          format: "rgba",
+          alpha: 0.6
+        })
       })
   );
 
@@ -47,10 +52,15 @@ const QuestionStat = ({ question: { id } }) => {
 
         <div className="question-stat-choices">
           {Object.values(stat).map(({ title, color }) => (
-            <p style={{ color: color }}>
-              {answer == title && <span className="oi oi-check"></span>}
-              {title}
-            </p>
+            <Row>
+              <span style={{ color }} className="oi oi-media-record"></span>
+              &nbsp;
+              <p>
+                {title}
+                &nbsp;
+                {answer == title && <span className="oi oi-check"></span>}
+              </p>
+            </Row>
           ))}
         </div>
 
@@ -67,7 +77,6 @@ const QuestionStat = ({ question: { id } }) => {
           data={Object.values(stat).filter(({ value }) => value != 0)}
         />
       </div>
-
     </>
   );
 };

@@ -107,7 +107,7 @@ const PollPassing = ({ poll, passRequest }) => {
           <Button
             size="lg"
             variant="outline-info"
-            className="send-btn"
+            className="send-btn bottom-button"
             disabled={!ifFormValid}
             type="submit"
           >

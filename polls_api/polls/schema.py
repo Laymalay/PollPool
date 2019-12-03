@@ -45,14 +45,14 @@ class Query(object):
         if poll:
             return PassedPoll.objects.filter(user=user, poll=poll).last()
         return PassedPoll.objects.none()
-    
+
     @login_required
     def resolve_all_polls(self, info, **kwargs):
         creator = kwargs.get('creator')
         if creator:
             return Poll.objects.filter(creator=creator)
         return Poll.objects.all()
-    
+
     @login_required
     def resolve_poll(self, info, **kwargs):
         id = kwargs.get('id')
@@ -65,14 +65,14 @@ class Query(object):
             return Poll.objects.get(title=title)
 
         return None
-    
+
     @login_required
     def resolve_all_passed_polls(self, info, **kwargs):
         user = kwargs.get('user')
         if user:
             return PassedPoll.objects.filter(user=user)
         return PassedPoll.objects.all()
-    
+
     @login_required
     def resolve_passed_poll(self, info, **kwargs):
         id = kwargs.get('id')
@@ -86,23 +86,33 @@ class Query(object):
 class UpdatePoll(graphene.Mutation):
     questions = graphene.List(QuestionType)
     creator = graphene.Field(UserType)
-    title = graphene.String(required=True)
+    image_path = graphene.String()
+    title = graphene.String()
     description = graphene.String()
-    id = graphene.ID()
+    id = graphene.String()
 
     class Arguments:
-        title = graphene.String(required=True)
-        id = graphene.ID()
+        title = graphene.String()
+        description = graphene.String()
+        image_path = graphene.String()
+        id = graphene.String()
 
     poll = graphene.Field(PollType)
 
     @login_required
-    def mutate(self, info, title, id):
+    def mutate(self, info, title, description, image_path, id):
         poll = Poll.objects.get(pk=id)
-        poll.title = title
+        if title:
+            poll.title = title
+        if description:
+            poll.description = description
+        if image_path:
+            poll.image_path = image_path
         poll.save()
+
         return UpdatePoll(creator=poll.creator,
                           id=poll.id,
+                          image_path=poll.image_path,
                           description=poll.description,
                           title=poll.title)
 
@@ -177,7 +187,20 @@ class CreatePassedPoll(graphene.Mutation):
                                 id=passed_poll.id)
 
 
+class DeletePoll(graphene.Mutation):
+    id = graphene.ID()
+
+    class Arguments:
+        id = graphene.ID()
+
+    @login_required
+    def mutate(self, info, id):
+        poll = Poll.objects.filter(pk=id).delete()
+        return DeletePoll(id=id)
+
+
 class Mutation(graphene.ObjectType):
     update_poll = UpdatePoll.Field()
     create_poll = CreatePoll.Field()
     create_passed_poll = CreatePassedPoll.Field()
+    delete_poll = DeletePoll.Field()
